@@ -3,7 +3,7 @@ require("ghelp")
 
 -- Load some default values for our rectangle.
 function love.load()
-    imgs = preloadimgs()
+    imgs = ghelp.preloadimgs()
     x, y, w, h = 20, 20, 60, 20
 end
 
