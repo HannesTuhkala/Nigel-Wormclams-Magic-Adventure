@@ -19,7 +19,10 @@ end
 -- Increase the size of the rectangle every frame.
 function love.update(dt)
 	tick.update(dt)
-    player.x, player.y = handleKeyboard(dt)
+    local x, y = handleKeyboard(dt)
+	if checkCollisions(x, y) then
+		player.x, player.y = x, y
+	end
 end
 
 -- Draw a coloured rectangle.
@@ -57,5 +60,8 @@ function handleKeyboard(dt)
     local x = player.x + (player.attributes.speed * dt * dx)
 
     return x, y
+end
 
+function checkCollisions(x, y)
+	return x > 0 and x + player.width < 1024 and y > 0 and y + player.height < 640
 end
