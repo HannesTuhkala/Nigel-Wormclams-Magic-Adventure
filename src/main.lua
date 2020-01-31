@@ -9,6 +9,7 @@ end
 
 -- Increase the size of the rectangle every frame.
 function love.update(dt)
+    print(player.attributes.strength)
 end
 
 -- Draw a coloured rectangle.
