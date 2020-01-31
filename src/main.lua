@@ -8,10 +8,9 @@ require("ghelp")
 
 -- Load some default values for our rectangle.
 function love.load()
-    imgs = preloadimgs()
 	tick = require "tick"
 	inventory.init()
-    x, y, w, h = 20, 20, 60, 20
+    imgs = ghelp.preloadimgs()
 end
 
 -- Increase the size of the rectangle every frame.
