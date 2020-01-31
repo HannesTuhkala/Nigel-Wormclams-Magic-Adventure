@@ -2,6 +2,7 @@ require("player")
 require("inventory")
 require("ghelp")
 require("draw")
+require("item")
 
 --https://github.com/rxi/tick
 --https://github.com/rxi/classic
