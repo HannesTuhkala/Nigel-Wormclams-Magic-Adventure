@@ -17,10 +17,42 @@ end
 -- Increase the size of the rectangle every frame.
 function love.update(dt)
 	tick.update(dt)
+    player.x, player.y = handleKeyboard(dt)
 end
 
 -- Draw a coloured rectangle.
 function love.draw()
     love.graphics.draw(imgs.map1)
-    love.graphics.draw(player.sprite, 0, 0)
+    love.graphics.draw(player.sprite, player.x, player.y)
+end
+
+function handleKeyboard(dt)
+    local dx, dy = 0, 0
+
+    if love.keyboard.isDown('w') then
+        dy = -1
+    end
+    if love.keyboard.isDown('s') then
+        dy = 1
+    end
+    if love.keyboard.isDown('a') then
+        dx = -1
+    end
+    if love.keyboard.isDown('d') then
+        dx = 1
+    end
+
+    length = math.sqrt(dx^2 + dy^2)
+
+    if length == 0 then
+        return player.x, player.y
+    end
+
+    dx, dy = dx/length, dy/length
+
+    local y = player.y + (player.attributes.speed * dt * dy)
+    local x = player.x + (player.attributes.speed * dt * dx)
+
+    return x, y
+
 end
