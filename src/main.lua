@@ -1,9 +1,11 @@
 require("player")
+require("inventory")
 require("ghelp")
 
 -- Load some default values for our rectangle.
 function love.load()
     imgs = preloadimgs()
+	inventory.init()
     x, y, w, h = 20, 20, 60, 20
 end
 
