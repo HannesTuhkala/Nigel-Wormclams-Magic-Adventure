@@ -1,3 +1,5 @@
+require("player")
+
 -- Load some default values for our rectangle.
 function love.load()
     x, y, w, h = 20, 20, 60, 20
