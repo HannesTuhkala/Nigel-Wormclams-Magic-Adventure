@@ -3,7 +3,7 @@ local dialog = {}
 local start_text_1 = {}
 start_text_1.title = "Nigel Wormclam"
 start_text_1.text = "This is me. Nigel Wormclam. You might be wondering how I ended up here. To cut a long story short, I am the saviour of the world " ..
-								" and I have to save the world before the unthinkable thing happens."
+								" and I have to save the world before the unthinkable happens."
 
 local start_text_2 = {}
 start_text_2.title = "Nigel Wormclam"

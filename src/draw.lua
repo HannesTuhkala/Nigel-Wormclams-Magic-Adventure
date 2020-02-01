@@ -31,7 +31,7 @@ draw.context_menu = function(inv_selected)
 		elseif inv_selected.hover[3] then
 			love.graphics.rectangle("fill", x, y + 34, 60, 17)
 		end
-		love.graphics.setColor(255, 255, 255, 255)
+		love.graphics.setColor(1, 1, 1, 1)
 		
 		x = x + 5
 		love.graphics.print({{0, 0, 0, 255}, "Use"}, x, y + 1, 0, 0.5)
