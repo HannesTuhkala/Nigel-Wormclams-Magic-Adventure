@@ -9,6 +9,8 @@ local text = {"Nigel Wormclam", "This is me. Nigel Wormclam. You might be wonder
 								" and I have to save the world before the unthinkable thing happens."}
 local dialog = {"Nigel Wormclam", "Yes. You guessed it. There will be no more Trocadero in the world."}
 
+local questsys = require('questsys')
+
 --https://github.com/rxi/tick
 --https://github.com/rxi/classic
 --https://github.com/adnzzzzZ/STALKER-X
