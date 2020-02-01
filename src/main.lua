@@ -5,9 +5,7 @@ require("draw")
 require("item")
 
 local talkies = require('talkies')
-local text = {"Nigel Wormclam", "This is me. Nigel Wormclam. You might be wondering how I ended up here. To cut a long story short, I am the saviour of the world " ..
-								" and I have to save the world before the unthinkable thing happens."}
-local dialog = {"Nigel Wormclam", "Yes. You guessed it. There will be no more Trocadero in the world."}
+local dialog = require('dialog')
 
 local questsys = require('questsys')
 local sti = require "sti"
@@ -32,9 +30,11 @@ function love.load()
 	talkies.textSpeed = "medium"
 	talkies.padding = 20
 	talkies.font = love.graphics.newFont("assets/fonts/Pixel UniCode.ttf", 32)
-	talkies.say(text[1], text[2], {talkSound = love.audio.newSource("assets/sound/record_scratch.mp3", "static"),
+	talkies.say(dialog[1].title, dialog[1].text, {talkSound = love.audio.newSource("assets/sound/record_scratch.mp3", "static"),
 									image = love.graphics.newImage("assets/images/player.png")})
-	talkies.say(dialog[1], dialog[2], {image = love.graphics.newImage("assets/images/player.png")})
+	talkies.say(dialog[2].title, dialog[2].text, {image = love.graphics.newImage("assets/images/player.png")})
+	
+	
 end
 
 -- Increase the size of the rectangle every frame.
