@@ -13,6 +13,9 @@ local sti = require "sti"
 
 local constants = require('constants')
 
+-- Either 0 or 1 depending if inventory or skill is chosen.
+local tab_index = 1
+
 local inv_selected = {}
 inv_selected.hover = {}
 inv_selected.clicked = false
@@ -114,6 +117,7 @@ function love.draw()
     camera:detach()
 	draw.inventory()
 	draw.context_menu(inv_selected)
+	draw.tabs(tab_index)
 	talkies.draw()
 end
 
