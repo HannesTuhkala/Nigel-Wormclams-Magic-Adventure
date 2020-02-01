@@ -10,6 +10,7 @@ local text = {"Nigel Wormclam", "This is me. Nigel Wormclam. You might be wonder
 local dialog = {"Nigel Wormclam", "Yes. You guessed it. There will be no more Trocadero in the world."}
 
 local questsys = require('questsys')
+local sti = require "sti"
 
 --https://github.com/rxi/tick
 --https://github.com/rxi/classic
@@ -20,9 +21,9 @@ function love.load()
 	tick = require "tick"
 	classic = require "classic"
     camera = require "camera"
-    sti = require "sti"
 
 	inventory.init()
+    map = sti("map.lua")
     imgs = ghelp.preloadimgs()
     player.sprite = imgs.player
     camera = camera()
@@ -37,8 +38,9 @@ function love.load()
 end
 
 -- Increase the size of the rectangle every frame.
-function love.update(dt)	
+function love.update(dt)
 	tick.update(dt)
+    map:update(dt)
     player.x, player.y = handleKeyboard(dt)
     --local x, y = handleKeyboard(dt)
 	--if checkCollisions(x, y) then
@@ -52,10 +54,11 @@ end
 -- Draw a coloured rectangle.
 function love.draw()
     camera:attach()
-    love.graphics.draw(imgs.map1)
+    map:draw(camera:toCameraCoords(0, 0))
+    --print(player.x, player.y)
     love.graphics.draw(player.sprite, player.x, player.y)
-	draw.inventory()
     camera:detach()
+	--draw.inventory()
 	talkies.draw()
 end
 
