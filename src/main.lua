@@ -17,12 +17,13 @@ local dialog = {"Nigel Wormclam", "Yes. You guessed it. There will be no more Tr
 function love.load()
 	tick = require "tick"
 	classic = require "classic"
-    Camera = require "camera"
+    camera = require "camera"
+    sti = require "sti"
 
 	inventory.init()
     imgs = ghelp.preloadimgs()
     player.sprite = imgs.player
-    camera = Camera()
+    camera = camera()
     camera:setFollowStyle("TOPDOWN")
 
 	talkies.textSpeed = "medium"
