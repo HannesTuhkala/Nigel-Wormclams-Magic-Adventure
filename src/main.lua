@@ -11,6 +11,7 @@ local dialog = {"Introduction", "Yes. You guessed it. There will be no more Troc
 
 --https://github.com/rxi/tick
 --https://github.com/rxi/classic
+--https://github.com/adnzzzzZ/STALKER-X
 
 -- Load some default values for our rectangle.
 function love.load()
@@ -23,7 +24,7 @@ function love.load()
     player.sprite = imgs.player
     camera = Camera()
     camera:setFollowStyle("TOPDOWN")
-	
+
 	talkies.textSpeed = "medium"
 	talkies.say(text[1], text[2], {talkSound = love.audio.newSource("sound/record_scratch.wav", "static"),
 									image = love.graphics.newImage("assets/player.png")})
