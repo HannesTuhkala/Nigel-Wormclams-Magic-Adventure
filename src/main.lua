@@ -3,7 +3,6 @@ require("inventory")
 require("ghelp")
 require("draw")
 require("item")
-
 --https://github.com/rxi/tick
 --https://github.com/rxi/classic
 
@@ -11,25 +10,34 @@ require("item")
 function love.load()
 	tick = require "tick"
 	classic = require "classic"
+    Camera = require "camera"
+
 	inventory.init()
     imgs = ghelp.preloadimgs()
     player.sprite = imgs.player
+    camera = Camera()
+    camera:setFollowStyle("TOPDOWN")
 end
 
 -- Increase the size of the rectangle every frame.
 function love.update(dt)
 	tick.update(dt)
-    local x, y = handleKeyboard(dt)
-	if checkCollisions(x, y) then
-		player.x, player.y = x, y
-	end
+    player.x, player.y = handleKeyboard(dt)
+    --local x, y = handleKeyboard(dt)
+	--if checkCollisions(x, y) then
+	--	player.x, player.y = x, y
+	--end
+    camera:update(dt)
+    camera:follow(player.x, player.y)
 end
 
 -- Draw a coloured rectangle.
 function love.draw()
+    camera:attach()
     love.graphics.draw(imgs.map1)
     love.graphics.draw(player.sprite, player.x, player.y)
 	draw.inventory()
+    camera:detach()
 end
 
 function handleKeyboard(dt)
