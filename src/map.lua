@@ -13,9 +13,9 @@ return {
   properties = {},
   tilesets = {
     {
-      name = "newset",
+      name = "tileset",
       firstgid = 1,
-      filename = "newset.tsx",
+      filename = "tileset.tsx",
       tilewidth = 100,
       tileheight = 100,
       spacing = 0,
@@ -38,10 +38,10 @@ return {
       tilecount = 3,
       tiles = {
         {
-          id = 2,
+          id = 1,
           objectGroup = {
             type = "objectgroup",
-            id = 3,
+            id = 2,
             name = "",
             visible = true,
             opacity = 1,
@@ -51,14 +51,14 @@ return {
             properties = {},
             objects = {
               {
-                id = 2,
+                id = 1,
                 name = "",
                 type = "",
                 shape = "rectangle",
-                x = 0.125,
-                y = 0.0625,
-                width = 100.239,
-                height = 99.9375,
+                x = 37,
+                y = 12,
+                width = 23,
+                height = 78,
                 rotation = 0,
                 visible = true,
                 properties = {}
@@ -86,13 +86,13 @@ return {
       encoding = "lua",
       data = {
         3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3,
+        3, 1, 1, 1, 1, 1, 1, 3, 1, 1, 1, 1, 1, 1, 3,
+        3, 1, 1, 1, 1, 1, 1, 3, 1, 1, 2, 1, 1, 1, 3,
+        3, 1, 1, 1, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 3,
+        3, 1, 1, 1, 1, 1, 1, 2, 1, 1, 1, 1, 1, 1, 3,
         3, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 3,
-        3, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 1, 3,
-        3, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 1, 3,
         3, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 3,
-        3, 1, 1, 1, 3, 3, 3, 1, 1, 1, 1, 1, 1, 1, 3,
-        3, 3, 3, 3, 3, 1, 3, 3, 3, 1, 1, 1, 1, 1, 3,
-        3, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 3,
+        3, 1, 1, 1, 2, 1, 1, 1, 1, 1, 1, 2, 1, 1, 3,
         3, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 3,
         3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3
       }

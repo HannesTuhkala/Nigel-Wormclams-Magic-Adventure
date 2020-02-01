@@ -7,5 +7,5 @@ player.attributes = {}
 player.attributes.strength = 10
 player.attributes.speed = 200
 
-player.x = 100
-player.y = 100
+player.x = 200
+player.y = 200
