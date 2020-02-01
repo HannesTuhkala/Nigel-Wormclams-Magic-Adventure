@@ -3,6 +3,12 @@ require("inventory")
 require("ghelp")
 require("draw")
 require("item")
+
+local talkies = require('talkies')
+local text = {"Introduction", "This is me. Nigel Wormclam. You might be wondering how I ended up here. To cut a long story short, I am the savior of the world " ..
+								" and I have to save the world before the unthinkable thing happens."}
+local dialog = {"Introduction", "Yes. You guessed it. There will be no more Trocadero in the world."}
+
 --https://github.com/rxi/tick
 --https://github.com/rxi/classic
 
@@ -17,6 +23,11 @@ function love.load()
     player.sprite = imgs.player
     camera = Camera()
     camera:setFollowStyle("TOPDOWN")
+	
+	talkies.textSpeed = "medium"
+	talkies.say(text[1], text[2], {talkSound = love.audio.newSource("sound/record_scratch.wav", "static"),
+									image = love.graphics.newImage("assets/player.png")})
+	talkies.say(dialog[1], dialog[2], {image = love.graphics.newImage("assets/player.png")})
 end
 
 -- Increase the size of the rectangle every frame.
@@ -29,6 +40,7 @@ function love.update(dt)
 	--end
     camera:update(dt)
     camera:follow(player.x, player.y)
+	talkies.update(dt)
 end
 
 -- Draw a coloured rectangle.
@@ -38,6 +50,7 @@ function love.draw()
     love.graphics.draw(player.sprite, player.x, player.y)
 	draw.inventory()
     camera:detach()
+	talkies.draw()
 end
 
 function handleKeyboard(dt)
@@ -68,6 +81,13 @@ function handleKeyboard(dt)
     local x = player.x + (player.attributes.speed * dt * dx)
 
     return x, y
+end
+
+function love.keypressed(key)
+	if key == "space" then talkies.onAction()
+	elseif key == "up" then talkies.prevOption()
+	elseif key == "down" then talkies.nextOption()
+	end
 end
 
 function checkCollisions(x, y)
