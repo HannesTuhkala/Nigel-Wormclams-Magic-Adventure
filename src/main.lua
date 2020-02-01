@@ -11,6 +11,8 @@ local dialog = require('dialog')
 local questsys = require('questsys')
 local sti = require "sti"
 
+local constants = require('constants')
+
 local inv_selected = {}
 inv_selected.hover = {}
 inv_selected.clicked = false

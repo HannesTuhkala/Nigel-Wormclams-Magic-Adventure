@@ -1,13 +1,15 @@
 draw = {}
 
+local constants = require('constants')
+
 draw.inventory = function()
 	--love.graphics.rectangle("fill", 785, 280, 240, 40)
 	for i = 0,3,1 do
 		for j = 0,2,1 do
-			love.graphics.draw(imgs.invslot, 785 + (j * 80), 240 + 80 + (i * 80))
+			love.graphics.draw(imgs.invslot, constants.inventory.origin_x + (j * constants.inventory.slot_width),
+								constants.inventory.origin_y + (i * constants.inventory.slot_height))
 		end
 	end
-	--love.graphics.print("Skills")
 end
 
 draw.context_menu = function(inv_selected)
@@ -16,20 +18,20 @@ draw.context_menu = function(inv_selected)
 		local y = inv_selected.y
 		
 		if inv_selected.mirror then
-			x = inv_selected.x - 60
+			x = inv_selected.x - constants.context_menu.width
 		else
 			x = inv_selected.x
 		end
 		
-		love.graphics.rectangle("fill", x, y, 60, 51)
+		love.graphics.rectangle("fill", x, y, constants.context_menu.width, constants.context_menu.height)
 		
-		love.graphics.setColor(0.1529, 0.5098, 0.6470, 1)
+		love.graphics.setColor(constants.context_menu.hover_color)
 		if inv_selected.hover[1] then
-			love.graphics.rectangle("fill", x, y, 60, 17)
+			love.graphics.rectangle("fill", x, y, constants.context_menu.width, constants.context_menu.sub_height)
 		elseif inv_selected.hover[2] then
-			love.graphics.rectangle("fill", x, y + 17, 60, 17)
+			love.graphics.rectangle("fill", x, y + constants.context_menu.sub_height, constants.context_menu.width, constants.context_menu.sub_height)
 		elseif inv_selected.hover[3] then
-			love.graphics.rectangle("fill", x, y + 34, 60, 17)
+			love.graphics.rectangle("fill", x, y + constants.context_menu.sub_height * 2, constants.context_menu.width, constants.context_menu.sub_height)
 		end
 		love.graphics.setColor(1, 1, 1, 1)
 		
