@@ -97,7 +97,6 @@ function love.update(dt)
         if walkableOne == true and walkableTwo == true then
             player.x, player.y = newX, newY
         end
-
     end
 
     camera:update(dt)
@@ -156,10 +155,6 @@ function love.keypressed(key)
 	elseif key == "up" then talkies.prevOption()
 	elseif key == "down" then talkies.nextOption()
 	end
-end
-
-function checkCollisions(x, y)
-	return x > 0 and x + player.width < 1024 and y > 0 and y + player.height < 640
 end
 
 function love.mousemoved(x, y, dx, dy, istouch)
