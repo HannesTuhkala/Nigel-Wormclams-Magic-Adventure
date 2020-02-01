@@ -11,6 +11,7 @@ local questsys = require('questsys')
 local sti = require "sti"
 
 local inv_selected = {}
+inv_selected.hover = {}
 inv_selected.clicked = false
 inv_selected.x = 0
 inv_selected.y = 0
@@ -63,7 +64,6 @@ end
 function love.draw()
     camera:attach()
     map:draw(camera:toCameraCoords(0, 0))
-    --print(player.x, player.y)
     love.graphics.draw(player.sprite, player.x, player.y)
     camera:detach()
 	draw.inventory()
@@ -112,22 +112,73 @@ function checkCollisions(x, y)
 	return x > 0 and x + player.width < 1024 and y > 0 and y + player.height < 640
 end
 
+function love.mousemoved(x, y, dx, dy, istouch)
+	if inv_selected.clicked then
+		if inv_selected.mirror and x > inv_selected.x - 60 and x < inv_selected.x then
+			if y > inv_selected.y and y < inv_selected.y + 51 then
+				inv_selected.hover[math.floor((y-inv_selected.y) / 17) + 1] = true
+				print("Option picked: "..math.floor((y-inv_selected.y) / 17) + 1)
+			end
+		elseif x > inv_selected.x and x < inv_selected.x + 60 then
+			if y > inv_selected.y and y < inv_selected.y + 51 then
+				inv_selected.hover[math.floor((y-inv_selected.y) / 17) + 1] = true
+				print("Option picked: "..math.floor((y-inv_selected.y) / 17) + 1)
+			end
+		else
+			inv_selected.hover[1] = false
+			inv_selected.hover[2] = false
+			inv_selected.hover[3] = false
+		end
+	else
+		inv_selected.hover[1] = false
+		inv_selected.hover[2] = false
+		inv_selected.hover[3] = false
+	end
+end
+
 function love.mousepressed(x, y, button, istouch, presses)
 	if button == 1 then
+		if inv_selected.clicked then
+			if inv_selected.mirror and x > inv_selected.x - 60 and x < inv_selected.x then
+				if y > inv_selected.y and y < inv_selected.y + 51 then
+					option = math.floor((y-inv_selected.y) / 17) + 1
+					--print("Option picked: "..option)
+				end
+			elseif x > inv_selected.x and x < inv_selected.x + 60 then
+				if y > inv_selected.y and y < inv_selected.y + 51 then
+					option = math.floor((y-inv_selected.y) / 17) + 1
+					--print("Option picked: "..option)
+				end
+			else
+				inv_selected.hover[1] = false
+				inv_selected.hover[2] = false
+				inv_selected.hover[3] = false
+			end
+		else
+			inv_selected.hover[1] = false
+			inv_selected.hover[2] = false
+			inv_selected.hover[3] = false
+		end
+		
 		inv_selected.clicked = false
+		inv_selected.mirror = false
 	end
 	
 	if button == 2 then
 		if x > 785 and y > 320 then
 			local slot_x, slot_y = math.floor((x - 785)/80), math.floor((y - 320)/80)
-			print("This was pressed: Row: " .. slot_x .. " Column: " .. slot_y)
 			inv_selected.clicked = true
 			inv_selected.x = x
 			inv_selected.y = y
+			
+			if x > 1024 - 60 then
+				inv_selected.mirror = true
+			else
+				inv_selected.mirror = false
+			end
 		else
 			inv_selected.clicked = false
+			inv_selected.mirror = false
 		end
 	end
-	
-	print("("..x..", " .. y..")")
 end
