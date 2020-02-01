@@ -1,7 +1,7 @@
 ghelp = {}
 
 ghelp.preloadimgs = function()
-        local dir = "assets/"
+        local dir = "assets/images/"
         local files = love.filesystem.getDirectoryItems(dir)
         local images = {}
         local k = ""
