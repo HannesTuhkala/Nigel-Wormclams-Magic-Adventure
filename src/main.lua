@@ -53,13 +53,50 @@ function love.update(dt)
 	tick.update(dt)
     map:update(dt)
 
-    local newX, newY = handleKeyboard(dt)
-    local x, y = map:convertPixelToTile(newX, newY)
-    local tile = collision.getTileType(math.ceil(x), math.ceil(y))
-    local walkable = collision.isWalkable(tile)
+    local newX, newY, dir = move(dt)
+    local tileOne, tileTwo
 
-    if walkable == true then
-        player.x, player.y = newX, newY
+    if dir ~= nil then
+        local x, y
+        if dir == "up" then
+            -- upper left
+            x, y = map:convertPixelToTile(newX, newY)
+            tileOne = collision.getTileType(math.ceil(x), math.ceil(y))
+            -- upper right
+            x, y = map:convertPixelToTile(newX+player.width, newY)
+            tileTwo = collision.getTileType(math.ceil(x), math.ceil(y))
+
+        elseif dir == "down" then
+            -- lower left
+            x, y = map:convertPixelToTile(newX, newY+player.height)
+            tileOne = collision.getTileType(math.ceil(x), math.ceil(y))
+            -- lower right
+            x, y = map:convertPixelToTile(newX+player.width, newY+player.height)
+            tileTwo = collision.getTileType(math.ceil(x), math.ceil(y))
+
+        elseif dir == "left" then
+            -- upper left
+            x, y = map:convertPixelToTile(newX, newY)
+            tileOne = collision.getTileType(math.ceil(x), math.ceil(y))
+            -- lower left
+            x, y = map:convertPixelToTile(newX, newY+player.height)
+            tileTwo = collision.getTileType(math.ceil(x), math.ceil(y))
+
+        elseif dir == "right" then
+            -- upper right
+            x, y = map:convertPixelToTile(newX+player.width, newY)
+            tileOne = collision.getTileType(math.ceil(x), math.ceil(y))
+            -- lower right
+            x, y = map:convertPixelToTile(newX+player.width, newY+player.height)
+            tileTwo = collision.getTileType(math.ceil(x), math.ceil(y))
+        end
+
+        local walkableOne = collision.isWalkable(tileOne)
+        local walkableTwo = collision.isWalkable(tileTwo)
+
+        if walkableOne == true and walkableTwo == true then
+            player.x, player.y = newX, newY
+        end
     end
 
     camera:update(dt)
@@ -78,26 +115,31 @@ function love.draw()
 	talkies.draw()
 end
 
-function handleKeyboard(dt)
+function move(dt)
     local dx, dy = 0, 0
+    local dir
 
     if love.keyboard.isDown('w') then
         dy = -1
+        dir = "up"
     end
     if love.keyboard.isDown('s') then
         dy = 1
+        dir = "down"
     end
     if love.keyboard.isDown('a') then
         dx = -1
+        dir = "left"
     end
     if love.keyboard.isDown('d') then
         dx = 1
+        dir = "right"
     end
 
     length = math.sqrt(dx^2 + dy^2)
 
     if length == 0 then
-        return player.x, player.y
+        return player.x, player.y, dir
     end
 
     dx, dy = dx/length, dy/length
@@ -105,7 +147,7 @@ function handleKeyboard(dt)
     local y = player.y + (player.attributes.speed * dt * dy)
     local x = player.x + (player.attributes.speed * dt * dx)
 
-    return x, y
+    return x, y, dir
 end
 
 function love.keypressed(key)
