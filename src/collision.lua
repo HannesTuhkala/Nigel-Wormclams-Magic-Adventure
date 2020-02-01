@@ -10,7 +10,6 @@ walkable[1] = true
 
 collision.getTileType = function(xTile, yTile)
     idx = ((yTile-1)*width+xTile)
-    print(idx)
     return collision.tiles[idx]
 end
 
