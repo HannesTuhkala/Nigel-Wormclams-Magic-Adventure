@@ -29,9 +29,9 @@ function love.load()
 	talkies.textSpeed = "medium"
 	talkies.padding = 20
 	talkies.font = love.graphics.newFont("assets/fonts/Pixel UniCode.ttf", 32)
-	talkies.say(dialog[1][1], dialog[1][2], {talkSound = love.audio.newSource("assets/sound/record_scratch.mp3", "static"),
+	talkies.say(dialog[1].title, dialog[1].text, {talkSound = love.audio.newSource("assets/sound/record_scratch.mp3", "static"),
 									image = love.graphics.newImage("assets/images/player.png")})
-	talkies.say(dialog[2][1], dialog[2][2], {image = love.graphics.newImage("assets/images/player.png")})
+	talkies.say(dialog[2].title, dialog[2].text, {image = love.graphics.newImage("assets/images/player.png")})
 end
 
 -- Increase the size of the rectangle every frame.
