@@ -3,6 +3,7 @@ require("inventory")
 require("ghelp")
 require("draw")
 require("item")
+require("collision")
 
 local talkies = require('talkies')
 local dialog = require('dialog')
@@ -19,6 +20,7 @@ inv_selected.y = 0
 --https://github.com/rxi/tick
 --https://github.com/rxi/classic
 --https://github.com/adnzzzzZ/STALKER-X
+--https://github.com/Karai17/Simple-Tiled-Implementation
 
 -- Load some default values for our rectangle.
 function love.load()
@@ -42,19 +44,26 @@ function love.load()
 	love.audio.newSource("assets/sound/record_scratch.mp3", "static")
 	talkies.say(dialog[1].title, dialog[1].text, {image = love.graphics.newImage("assets/images/player.png")})
 	talkies.say(dialog[2].title, dialog[2].text, {image = love.graphics.newImage("assets/images/player.png")})
-	
-	
+
+
 end
 
 -- Increase the size of the rectangle every frame.
 function love.update(dt)
 	tick.update(dt)
     map:update(dt)
-    player.x, player.y = handleKeyboard(dt)
-    --local x, y = handleKeyboard(dt)
-	--if checkCollisions(x, y) then
-	--	player.x, player.y = x, y
-	--end
+
+    local newX, newY = handleKeyboard(dt)
+    local x, y = map:convertPixelToTile(newX, newY)
+    local tile = collision.getTileType(math.ceil(x), math.ceil(y))
+    local walkable = collision.isWalkable(tile)
+
+    print(x, y, tile, walkable)
+
+    if walkable == true then
+        player.x, player.y = newX, newY
+    end
+
     camera:update(dt)
     camera:follow(player.x, player.y)
 	talkies.update(dt)
