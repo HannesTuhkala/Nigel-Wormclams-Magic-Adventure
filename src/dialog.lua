@@ -12,4 +12,27 @@ start_text_2.text = "Yes. You guessed it. \nThere will be no more Trocadero in t
 dialog[1] = start_text_1
 dialog[2] = start_text_2
 
+
+-- Mark ran Safns dialog
+local mark_dialog_1 = {}
+mark_dialog_1.title = "Mark ran Safns"
+mark_dialog_1.text = "Oi m8! Why u still here m8? Go to the local cave and remove the boulder from the waterfall so we can get our delicious Trocadero. SACRE BLEU!"
+
+dialog[3] = mark_dialog_1
+
+
+-- Älembic Greeks dialog
+local emil_dialog_1 = {}
+emil_dialog_1.title = "Älembic Greeks"
+emil_dialog_1.text = "Suka Blyat"
+
+dialog[4] = emil_dialog_1
+
+-- Bari Wilson
+local bari_dialog_1 = {}
+bari_dialog_1.title = "Bari Wilson"
+bari_dialog_1.text = "Howdy Cowboy"
+
+dialog[5] = bari_dialog_1
+
 return dialog

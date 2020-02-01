@@ -32,6 +32,8 @@ function love.load()
 	talkies.say(dialog[1].title, dialog[1].text, {talkSound = love.audio.newSource("assets/sound/record_scratch.mp3", "static"),
 									image = love.graphics.newImage("assets/images/player.png")})
 	talkies.say(dialog[2].title, dialog[2].text, {image = love.graphics.newImage("assets/images/player.png")})
+	
+	
 end
 
 -- Increase the size of the rectangle every frame.
