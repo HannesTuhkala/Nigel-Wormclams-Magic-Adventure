@@ -11,19 +11,21 @@ local questsys = require('questsys')
 
 --https://github.com/rxi/tick
 --https://github.com/rxi/classic
+--https://github.com/adnzzzzZ/STALKER-X
 
 -- Load some default values for our rectangle.
 function love.load()
 	tick = require "tick"
 	classic = require "classic"
-    Camera = require "camera"
+    camera = require "camera"
+    sti = require "sti"
 
 	inventory.init()
     imgs = ghelp.preloadimgs()
     player.sprite = imgs.player
-    camera = Camera()
+    camera = camera()
     camera:setFollowStyle("TOPDOWN")
-	
+
 	talkies.textSpeed = "medium"
 	talkies.padding = 20
 	talkies.font = love.graphics.newFont("assets/fonts/Pixel UniCode.ttf", 32)
