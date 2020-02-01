@@ -10,6 +10,11 @@ local dialog = require('dialog')
 local questsys = require('questsys')
 local sti = require "sti"
 
+local inv_selected = {}
+inv_selected.clicked = false
+inv_selected.x = 0
+inv_selected.y = 0
+
 --https://github.com/rxi/tick
 --https://github.com/rxi/classic
 --https://github.com/adnzzzzZ/STALKER-X
@@ -30,8 +35,11 @@ function love.load()
 	talkies.textSpeed = "medium"
 	talkies.padding = 20
 	talkies.font = love.graphics.newFont("assets/fonts/Pixel UniCode.ttf", 32)
-	talkies.say(dialog[1].title, dialog[1].text, {talkSound = love.audio.newSource("assets/sound/record_scratch.mp3", "static"),
-									image = love.graphics.newImage("assets/images/player.png")})
+	talkies.talkSound = love.audio.newSource("assets/sound/sfx/talk.wav", "static")
+	talkies.typedNotTalked = false
+	talkies.pitchValues = {0.70, 0.72, 0.74, 0.76, 0.78, 0.80}
+	love.audio.newSource("assets/sound/record_scratch.mp3", "static")
+	talkies.say(dialog[1].title, dialog[1].text, {image = love.graphics.newImage("assets/images/player.png")})
 	talkies.say(dialog[2].title, dialog[2].text, {image = love.graphics.newImage("assets/images/player.png")})
 	
 	
@@ -58,7 +66,8 @@ function love.draw()
     --print(player.x, player.y)
     love.graphics.draw(player.sprite, player.x, player.y)
     camera:detach()
-	--draw.inventory()
+	draw.inventory()
+	draw.context_menu(inv_selected)
 	talkies.draw()
 end
 
@@ -101,4 +110,24 @@ end
 
 function checkCollisions(x, y)
 	return x > 0 and x + player.width < 1024 and y > 0 and y + player.height < 640
+end
+
+function love.mousepressed(x, y, button, istouch, presses)
+	if button == 1 then
+		inv_selected.clicked = false
+	end
+	
+	if button == 2 then
+		if x > 785 and y > 320 then
+			local slot_x, slot_y = math.floor((x - 785)/80), math.floor((y - 320)/80)
+			print("This was pressed: Row: " .. slot_x .. " Column: " .. slot_y)
+			inv_selected.clicked = true
+			inv_selected.x = x
+			inv_selected.y = y
+		else
+			inv_selected.clicked = false
+		end
+	end
+	
+	print("("..x..", " .. y..")")
 end
