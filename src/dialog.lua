@@ -35,4 +35,9 @@ bari_dialog_1.text = "Howdy Cowboy"
 
 dialog[5] = bari_dialog_1
 
+-- Elnath Hanukas - boss?
+local elnath_dialog_1 = {}
+elnath_dialog_1.title = "Elnath Hanukas"
+elnath_dialog_1.text = "So you have finally come here"
+
 return dialog
