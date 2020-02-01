@@ -159,15 +159,17 @@ end
 
 function love.mousemoved(x, y, dx, dy, istouch)
 	if inv_selected.clicked then
-		if inv_selected.mirror and x > inv_selected.x - 60 and x < inv_selected.x then
+		if (inv_selected.mirror and x > inv_selected.x - 60 and x < inv_selected.x) or
+			(not inv_selected.mirror and x > inv_selected.x and x < inv_selected.x + 60) then
 			if y > inv_selected.y and y < inv_selected.y + 51 then
+				inv_selected.hover[1] = false
+				inv_selected.hover[2] = false
+				inv_selected.hover[3] = false
 				inv_selected.hover[math.floor((y-inv_selected.y) / 17) + 1] = true
-				print("Option picked: "..math.floor((y-inv_selected.y) / 17) + 1)
-			end
-		elseif x > inv_selected.x and x < inv_selected.x + 60 then
-			if y > inv_selected.y and y < inv_selected.y + 51 then
-				inv_selected.hover[math.floor((y-inv_selected.y) / 17) + 1] = true
-				print("Option picked: "..math.floor((y-inv_selected.y) / 17) + 1)
+			else
+				inv_selected.hover[1] = false
+				inv_selected.hover[2] = false
+				inv_selected.hover[3] = false
 			end
 		else
 			inv_selected.hover[1] = false
@@ -184,15 +186,10 @@ end
 function love.mousepressed(x, y, button, istouch, presses)
 	if button == 1 then
 		if inv_selected.clicked then
-			if inv_selected.mirror and x > inv_selected.x - 60 and x < inv_selected.x then
+			if (inv_selected.mirror and x > inv_selected.x - 60 and x < inv_selected.x) or
+				(not inv_selected.mirror and x > inv_selected.x and x < inv_selected.x + 60) then
 				if y > inv_selected.y and y < inv_selected.y + 51 then
 					option = math.floor((y-inv_selected.y) / 17) + 1
-					--print("Option picked: "..option)
-				end
-			elseif x > inv_selected.x and x < inv_selected.x + 60 then
-				if y > inv_selected.y and y < inv_selected.y + 51 then
-					option = math.floor((y-inv_selected.y) / 17) + 1
-					--print("Option picked: "..option)
 				end
 			else
 				inv_selected.hover[1] = false
@@ -204,6 +201,10 @@ function love.mousepressed(x, y, button, istouch, presses)
 			inv_selected.hover[2] = false
 			inv_selected.hover[3] = false
 		end
+		
+		inv_selected.hover[1] = false
+		inv_selected.hover[2] = false
+		inv_selected.hover[3] = false
 		
 		inv_selected.clicked = false
 		inv_selected.mirror = false
