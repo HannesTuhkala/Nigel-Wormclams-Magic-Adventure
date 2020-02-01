@@ -5,9 +5,9 @@ require("draw")
 require("item")
 
 local talkies = require('talkies')
-local text = {"Introduction", "This is me. Nigel Wormclam. You might be wondering how I ended up here. To cut a long story short, I am the savior of the world " ..
+local text = {"Nigel Wormclam", "This is me. Nigel Wormclam. You might be wondering how I ended up here. To cut a long story short, I am the saviour of the world " ..
 								" and I have to save the world before the unthinkable thing happens."}
-local dialog = {"Introduction", "Yes. You guessed it. There will be no more Trocadero in the world."}
+local dialog = {"Nigel Wormclam", "Yes. You guessed it. There will be no more Trocadero in the world."}
 
 --https://github.com/rxi/tick
 --https://github.com/rxi/classic
@@ -26,13 +26,15 @@ function love.load()
     camera:setFollowStyle("TOPDOWN")
 
 	talkies.textSpeed = "medium"
-	talkies.say(text[1], text[2], {talkSound = love.audio.newSource("sound/record_scratch.wav", "static"),
-									image = love.graphics.newImage("assets/player.png")})
-	talkies.say(dialog[1], dialog[2], {image = love.graphics.newImage("assets/player.png")})
+	talkies.padding = 20
+	talkies.font = love.graphics.newFont("assets/fonts/Pixel UniCode.ttf", 32)
+	talkies.say(text[1], text[2], {talkSound = love.audio.newSource("assets/sound/record_scratch.mp3", "static"),
+									image = love.graphics.newImage("assets/images/player.png")})
+	talkies.say(dialog[1], dialog[2], {image = love.graphics.newImage("assets/images/player.png")})
 end
 
 -- Increase the size of the rectangle every frame.
-function love.update(dt)
+function love.update(dt)	
 	tick.update(dt)
     player.x, player.y = handleKeyboard(dt)
     --local x, y = handleKeyboard(dt)

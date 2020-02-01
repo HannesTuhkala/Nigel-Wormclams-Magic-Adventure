@@ -1,6 +1,7 @@
 player = {}
 player.width = 30
 player.height = 30
+player.name = "Nigel Wormclam"
 
 player.attributes = {}
 player.attributes.strength = 10
