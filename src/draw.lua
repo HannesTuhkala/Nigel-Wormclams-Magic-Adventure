@@ -2,11 +2,13 @@ draw = {}
 
 local constants = require('constants')
 
-draw.inventory = function()
-	for i = 0,3,1 do
-		for j = 0,2,1 do
-			love.graphics.draw(imgs.invslot, constants.inventory.origin_x + (j * constants.inventory.slot_width),
-								constants.inventory.origin_y + (i * constants.inventory.slot_height))
+draw.inventory = function(should_draw)
+	if should_draw == 0 then
+		for i = 0,3,1 do
+			for j = 0,2,1 do
+				love.graphics.draw(imgs.invslot, constants.inventory.origin_x + (j * constants.inventory.slot_width),
+									constants.inventory.origin_y + (i * constants.inventory.slot_height))
+			end
 		end
 	end
 end

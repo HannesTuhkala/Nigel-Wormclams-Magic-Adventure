@@ -14,7 +14,7 @@ local sti = require "sti"
 local constants = require('constants')
 
 -- Either 0 or 1 depending if inventory or skill is chosen.
-local tab_index = 1
+local tab_index = 0
 
 local inv_selected = {}
 inv_selected.hover = {}
@@ -115,7 +115,7 @@ function love.draw()
     map:draw(camera:toCameraCoords(0, 0))
     love.graphics.draw(player.sprite, player.x, player.y)
     camera:detach()
-	draw.inventory()
+	draw.inventory(tab_index)
 	draw.context_menu(inv_selected)
 	draw.tabs(tab_index)
 	talkies.draw()
@@ -202,10 +202,12 @@ function love.mousepressed(x, y, button, istouch, presses)
 				inv_selected.hover[2] = false
 				inv_selected.hover[3] = false
 			end
-		else
-			inv_selected.hover[1] = false
-			inv_selected.hover[2] = false
-			inv_selected.hover[3] = false
+		elseif x > 785 and y > 280 and y < 320 then
+			if x < 905 then
+				tab_index = 0
+			else
+				tab_index = 1
+			end
 		end
 		
 		inv_selected.hover[1] = false
@@ -216,7 +218,7 @@ function love.mousepressed(x, y, button, istouch, presses)
 		inv_selected.mirror = false
 	end
 	
-	if button == 2 then
+	if button == 2 and tab_index == 0 then
 		if x > 785 and y > 320 then
 			local slot_x, slot_y = math.floor((x - 785)/80), math.floor((y - 320)/80)
 			inv_selected.clicked = true
