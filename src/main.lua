@@ -4,6 +4,7 @@ local ghelp = require('ghelp')
 local draw = require('draw')
 local items = require('item')
 local collision = require('collision')
+local hooks = require('hooks')
 
 local talkies = require('talkies')
 local dialog = require('dialog')
