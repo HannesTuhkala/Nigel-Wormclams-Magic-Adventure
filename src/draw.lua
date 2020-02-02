@@ -69,6 +69,8 @@ draw.tabs = function(tab_index, inv_selected, player_attributes, inventory)
 		draw.context_menu(inv_selected)
 	elseif tab_index == 1 then
 		draw.skills(player_attributes)
+	elseif tab_index == 2 then
+		draw.equipment()
 	end
 end
 
@@ -99,6 +101,18 @@ draw.health_bar = function(health)
 	local health_length = 398 * (health/100)
 	love.graphics.setColor(0, 1, 0, 1)
 	love.graphics.rectangle("fill", 251, 591, health_length, 39)
+	love.graphics.setColor(1, 1, 1, 1)
+end
+
+draw.equipment = function()
+	love.graphics.rectangle("fill", 785, 320, 340, 320)
+	love.graphics.setColor(0, 0, 0, 1)
+	love.graphics.rectangle("line", 785+90, 320+10, 60, 60)
+	love.graphics.rectangle("line", 785+90, 320+90, 60, 60)
+	love.graphics.rectangle("line", 800, 320+130, 60, 60)
+	love.graphics.rectangle("line", 950, 320+130, 60, 60)
+	love.graphics.rectangle("line", 785+90, 320+170, 60, 60)
+	love.graphics.rectangle("line", 785+90, 320+250, 60, 60)
 	love.graphics.setColor(1, 1, 1, 1)
 end
 

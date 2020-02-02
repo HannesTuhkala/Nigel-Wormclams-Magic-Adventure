@@ -14,7 +14,7 @@ local sti = require "sti"
 local constants = require('constants')
 
 -- Either 0 or 1 depending if inventory or skill is chosen.
-local tab_index = 0
+local tab_index = 2
 
 local inv_selected = {}
 inv_selected.hover = {}

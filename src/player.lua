@@ -5,6 +5,8 @@ player.height = 30
 player.name = "Nigel Wormclam"
 player.health = 50
 
+player.equipment = {}
+
 player.attributes = {}
 player.attributes.strength = 30
 player.attributes.speed = 200
