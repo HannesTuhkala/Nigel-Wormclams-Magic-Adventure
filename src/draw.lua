@@ -21,7 +21,7 @@ draw.inventory = function(inventory)
 	--end
 	
 	if not inventory[1] then return end
-	love.graphics.draw(inventory[1].image, 800, 335)
+	love.graphics.draw(inventory[1].image, 800, 337)
 end
 
 -- Draws a context_menu if a player right-clicks on a slot in the inventory tab.
