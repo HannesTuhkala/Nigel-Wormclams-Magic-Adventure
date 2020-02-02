@@ -14,7 +14,7 @@ player.attributes.charisma = 9
 player.attributes.spirit = 16
 
 -- Spawn position
-player.x = 400
-player.y = 400
+player.x = 832
+player.y = 1184
 
 return player
