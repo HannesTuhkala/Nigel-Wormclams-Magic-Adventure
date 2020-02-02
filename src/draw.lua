@@ -49,9 +49,9 @@ draw.context_menu = function(inv_selected)
 		love.graphics.setColor(1, 1, 1, 1)
 		
 		x = x + 5
-		love.graphics.print({{0, 0, 0, 255}, "Use"}, x, y + 1, 0, 0.6)
-		love.graphics.print({{0, 0, 0, 255}, "Drop"}, x, y + 16, 0, 0.6)
-		love.graphics.print({{0, 0, 0, 255}, "Cancel"}, x, y + 31, 0, 0.6)
+		love.graphics.print({{0, 0, 0, 255}, "Use"}, x, y + 1, 0, 0.8)
+		love.graphics.print({{0, 0, 0, 255}, "Drop"}, x, y + 18, 0, 0.8)
+		love.graphics.print({{0, 0, 0, 255}, "Cancel"}, x, y + 35, 0, 0.8)
 	end
 end
 
