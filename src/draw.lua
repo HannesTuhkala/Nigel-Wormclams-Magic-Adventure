@@ -2,17 +2,17 @@ draw = {}
 
 local constants = require('constants')
 
-draw.inventory = function(should_draw)
-	if should_draw == 0 then
-		for i = 0,3,1 do
-			for j = 0,2,1 do
-				love.graphics.draw(imgs.invslot, constants.inventory.origin_x + (j * constants.inventory.slot_width),
-									constants.inventory.origin_y + (i * constants.inventory.slot_height))
-			end
+-- Will only be drawn if tab_index is set to 0. Is called by draw.tabs(tab_index).
+draw.inventory = function()
+	for i = 0,3,1 do
+		for j = 0,2,1 do
+			love.graphics.draw(imgs.invslot, constants.inventory.origin_x + (j * constants.inventory.slot_width),
+								constants.inventory.origin_y + (i * constants.inventory.slot_height))
 		end
 	end
 end
 
+-- Draws a context_menu if a player right-clicks on a slot in the inventory tab.
 draw.context_menu = function(inv_selected)
 	if inv_selected.clicked then
 		local x
@@ -43,11 +43,38 @@ draw.context_menu = function(inv_selected)
 	end
 end
 
-draw.tabs = function(tab_index)
-	--love.graphics.rectangle("fill", 785, 280, 240, 40)
+-- Decides whether to draw the skills-tab or the inventory tab based on tab_index.
+-- inv_selected is used for draw.context_menu to let it know which option the mouse is on.
+draw.tabs = function(tab_index, inv_selected, player_attributes)
 	love.graphics.draw(imgs.inventoryIcon, 785, 280)
 	love.graphics.draw(imgs.skillsIcon, 905, 280)
 	love.graphics.setColor(constants.tabs.selected_color)
 	love.graphics.line(795 + (120 * tab_index), 314, 890 + (120 * tab_index), 314)
+	love.graphics.setColor(1, 1, 1, 1)
+	
+	if tab_index == 0 then
+		draw.inventory()
+		draw.context_menu(inv_selected)
+	elseif tab_index == 1 then
+		draw.skills(player_attributes)
+	end
+end
+
+-- Will only be drawn if tab_index is set to 1. Is called by draw.tabs(tab_index).
+draw.skills = function(ply_attr)
+	love.graphics.rectangle("fill", 785, 320, 240, 320)
+	love.graphics.setColor(constants.tabs.selected_color)
+	love.graphics.print("Strength:", 815, 340)
+	love.graphics.print(ply_attr.strength, 940, 340)
+	love.graphics.print("Intellect:", 815, 390)
+	love.graphics.print(ply_attr.intellect, 940, 390)
+	love.graphics.print("Speed:", 815, 440)
+	love.graphics.print(ply_attr.speed, 940, 440)
+	love.graphics.print("Charisma:", 815, 490)
+	love.graphics.print(ply_attr.charisma, 940, 490)
+	love.graphics.print("Agility:", 815, 540)
+	love.graphics.print(ply_attr.agility, 940, 540)
+	love.graphics.print("Spirit:", 815, 590)
+	love.graphics.print(ply_attr.spirit, 940, 590)
 	love.graphics.setColor(1, 1, 1, 1)
 end

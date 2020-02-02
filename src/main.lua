@@ -1,4 +1,4 @@
-require("player")
+local player = require('player')
 require("inventory")
 require("ghelp")
 require("draw")
@@ -109,15 +109,12 @@ function love.update(dt)
 	talkies.update(dt)
 end
 
--- Draw a coloured rectangle.
 function love.draw()
     camera:attach()
     map:draw(camera:toCameraCoords(0, 0))
     love.graphics.draw(player.sprite, player.x, player.y)
     camera:detach()
-	draw.inventory(tab_index)
-	draw.context_menu(inv_selected)
-	draw.tabs(tab_index)
+	draw.tabs(tab_index, inv_selected, player.attributes)
 	talkies.draw()
 end
 
