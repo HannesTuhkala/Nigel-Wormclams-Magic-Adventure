@@ -1,9 +1,9 @@
 local player = require('player')
-require("inventory")
-require("ghelp")
-require("draw")
-require("item")
-require("collision")
+local inventory = require('inventory')
+local ghelp = require('ghelp')
+local draw = require('draw')
+local items = require('item')
+local collision = require('collision')
 
 local talkies = require('talkies')
 local dialog = require('dialog')
@@ -47,10 +47,19 @@ function love.load()
 	talkies.typedNotTalked = false
 	talkies.pitchValues = {0.70, 0.72, 0.74, 0.76, 0.78, 0.80}
 	love.audio.newSource("assets/sound/record_scratch.mp3", "static")
-	talkies.say(dialog[1].title, dialog[1].text, {image = love.graphics.newImage("assets/images/player.png")})
-	talkies.say(dialog[2].title, dialog[2].text, {image = love.graphics.newImage("assets/images/player.png")})
+	--talkies.say(dialog[1].title, dialog[1].text, {image = love.graphics.newImage("assets/images/player.png")})
+	--talkies.say(dialog[2].title, dialog[2].text, {image = love.graphics.newImage("assets/images/player.png")})
 
 
+	-- Glitches out and can't find bug atm
+	--items.health_potion.image = love.graphics.newImage("assets/images/health_potion.png")
+	--for i=1,20,1 do
+	--	local health_potion = items.create_health_potion()
+	--	health_potion.image = love.graphics.newImage("assets/images/health_potion.png")
+	--	inventory[i] = health_potion
+	--end
+	inventory[1] = items.create_health_potion()
+	inventory[1].image = love.graphics.newImage("assets/images/health_potion.png")
 end
 
 -- Increase the size of the rectangle every frame.
@@ -114,7 +123,8 @@ function love.draw()
     map:draw(camera:toCameraCoords(0, 0))
     love.graphics.draw(player.sprite, player.x, player.y)
     camera:detach()
-	draw.tabs(tab_index, inv_selected, player.attributes)
+	draw.tabs(tab_index, inv_selected, player.attributes, inventory)
+	draw.health_bar(player.health)
 	talkies.draw()
 end
 
@@ -180,6 +190,20 @@ function love.mousemoved(x, y, dx, dy, istouch)
 	inv_selected.hover[3] = false
 end
 
+function process_item(item)
+	local slot_x, slot_y = math.floor((inv_selected.x - 785)/80), math.floor((inv_selected.y - 320)/80)
+	local slot = slot_x + 1 + slot_y * 3
+	if not inventory[slot] then return end
+	inventory[slot].use(player)
+	drop_item()
+end
+
+function drop_item()
+	local slot_x, slot_y = math.floor((inv_selected.x - 785)/80), math.floor((inv_selected.y - 320)/80)
+	local slot = slot_x + 1 + slot_y * 3
+	inventory[slot] = nil
+end
+
 function love.mousepressed(x, y, button, istouch, presses)
 	if button == 1 then
 		if inv_selected.clicked then
@@ -187,6 +211,13 @@ function love.mousepressed(x, y, button, istouch, presses)
 				(not inv_selected.mirror and x > inv_selected.x and x < inv_selected.x + 60) then
 				if y > inv_selected.y and y < inv_selected.y + 51 then
 					option = math.floor((y-inv_selected.y) / 17) + 1
+					if option == 1 then
+						process_item()
+					elseif option == 2 then
+						drop_item()
+					elseif option == 3 then
+						inv_selected.clicked = false
+					end
 				end
 			end
 		elseif x > 785 and y > 280 and y < 320 then
@@ -207,7 +238,7 @@ function love.mousepressed(x, y, button, istouch, presses)
 	
 	if button == 2 and tab_index == 0 then
 		if x > 785 and y > 320 then
-			local slot_x, slot_y = math.floor((x - 785)/80), math.floor((y - 320)/80)
+			--local slot_x, slot_y = math.floor((x - 785)/80), math.floor((y - 320)/80)
 			inv_selected.clicked = true
 			inv_selected.x = x
 			inv_selected.y = y

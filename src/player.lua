@@ -3,6 +3,7 @@ local player = {}
 player.width = 30
 player.height = 30
 player.name = "Nigel Wormclam"
+player.health = 50
 
 player.attributes = {}
 player.attributes.strength = 30

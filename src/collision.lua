@@ -1,4 +1,4 @@
-collision = {}
+local collision = {}
 collision.map = require "map"
 collision.tiles = collision.map.layers[3].data
 
@@ -21,3 +21,5 @@ end
 collision.isWalkable = function(tileType)
     return walkable[tileType]
 end
+
+return collision

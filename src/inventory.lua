@@ -1,4 +1,4 @@
-inventory = {}
+local inventory = {}
 inventory.inv = {}
 
 inventory.init = function()
@@ -6,3 +6,5 @@ inventory.init = function()
 		inventory.inv[i] = nil
 	end
 end
+
+return inventory
