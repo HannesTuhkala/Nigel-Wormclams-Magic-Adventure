@@ -99,4 +99,14 @@ draw.health_bar = function(health)
 	love.graphics.setColor(1, 1, 1, 1)
 end
 
+draw.init_particles = function()
+    psystem = love.graphics.newParticleSystem(imgs.fireparticle, 5)
+    psystem:setParticleLifetime(1, 2) -- Particles live at least 2s and at most 5s.
+	psystem:setEmissionRate(4)
+	psystem:setSizeVariation(1)
+	psystem:setLinearAcceleration(-20, -20, 20, 20) -- Random movement in all directions.
+	psystem:setColors(1, 1, 1, 1, 1, 1, 1, 0) -- Fade to transparency.
+    return psystem
+end
+
 return draw

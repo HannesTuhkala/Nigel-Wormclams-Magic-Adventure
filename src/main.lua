@@ -60,6 +60,18 @@ function love.load()
 	--end
 	inventory[1] = items.create_health_potion()
 	inventory[1].image = love.graphics.newImage("assets/images/health_potion.png")
+
+
+    torchesIdx = collision.getAllTorches()
+    torchesPositions = {}
+    for i, v in ipairs(torchesIdx) do
+        ypos = (math.ceil(v / 100))*32
+        xpos = (v % 100)*32
+
+        table.insert(torchesPositions, {xpos, ypos})
+    end
+
+    psystem = draw.init_particles()
 end
 
 -- Increase the size of the rectangle every frame.
@@ -116,12 +128,17 @@ function love.update(dt)
     camera:update(dt)
     camera:follow(player.x, player.y)
 	talkies.update(dt)
+    psystem:update(dt)
+    
 end
 
 function love.draw()
     camera:attach()
     map:draw(camera:toCameraCoords(0, 0))
     love.graphics.draw(player.sprite, player.x, player.y)
+    for i, v in ipairs(torchesPositions) do
+        love.graphics.draw(psystem, v[1]-16, v[2]-22)
+    end
     camera:detach()
 	draw.tabs(tab_index, inv_selected, player.attributes, inventory)
 	draw.health_bar(player.health)
