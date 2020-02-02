@@ -9,6 +9,7 @@ local items = {}
 items.create_health_potion = function()
 	health_potion = {}
 	health_potion.heal = 20
+	health_potion.quantity = 2
 	health_potion.use = function(player)
 		if player.health + health_potion.heal > 100 then player.health = 100 return end
 		player.health = player.health + health_potion.heal

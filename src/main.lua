@@ -208,7 +208,11 @@ function process_item(item)
 	local slot = slot_x + 1 + slot_y * 3
 	if not inventory[slot] then return end
 	inventory[slot].use(player)
-	drop_item()
+	inventory[slot].quantity = inventory[slot].quantity - 1
+	
+	if inventory[slot].quantity == 0 then
+		drop_item()
+	end
 end
 
 function drop_item()

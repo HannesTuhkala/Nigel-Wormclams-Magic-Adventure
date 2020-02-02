@@ -1,6 +1,6 @@
 local hooks = {}
 
-hook.onGameStart = function()
+hooks.onGameStart = function()
 	return
 end
 
