@@ -74,7 +74,7 @@ end
 
 -- Will only be drawn if tab_index is set to 1. Is called by draw.tabs(tab_index).
 draw.skills = function(ply_attr)
-	love.graphics.rectangle("fill", 785, 320, 240, 320)
+    love.graphics.draw(imgs.skillsslot, 785, 320)
 	love.graphics.setColor(constants.tabs.selected_color)
 	love.graphics.print("Strength:", 815, 340)
 	love.graphics.print(ply_attr.strength, 940, 340)
