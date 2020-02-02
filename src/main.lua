@@ -169,21 +169,15 @@ function love.mousemoved(x, y, dx, dy, istouch)
 				inv_selected.hover[2] = false
 				inv_selected.hover[3] = false
 				inv_selected.hover[math.floor((y-inv_selected.y) / 17) + 1] = true
-			else
-				inv_selected.hover[1] = false
-				inv_selected.hover[2] = false
-				inv_selected.hover[3] = false
+				
+				return
 			end
-		else
-			inv_selected.hover[1] = false
-			inv_selected.hover[2] = false
-			inv_selected.hover[3] = false
 		end
-	else
-		inv_selected.hover[1] = false
-		inv_selected.hover[2] = false
-		inv_selected.hover[3] = false
 	end
+	
+	inv_selected.hover[1] = false
+	inv_selected.hover[2] = false
+	inv_selected.hover[3] = false
 end
 
 function love.mousepressed(x, y, button, istouch, presses)
@@ -194,10 +188,6 @@ function love.mousepressed(x, y, button, istouch, presses)
 				if y > inv_selected.y and y < inv_selected.y + 51 then
 					option = math.floor((y-inv_selected.y) / 17) + 1
 				end
-			else
-				inv_selected.hover[1] = false
-				inv_selected.hover[2] = false
-				inv_selected.hover[3] = false
 			end
 		elseif x > 785 and y > 280 and y < 320 then
 			if x < 905 then
