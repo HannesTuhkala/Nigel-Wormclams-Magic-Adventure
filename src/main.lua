@@ -70,7 +70,7 @@ function love.update(dt)
     local newX, newY, dir = move(dt)
     local tileOne, tileTwo
 
-    if dir ~= nil then
+    if dir then
         local x, y
         if dir == "up" then
             -- upper left
