@@ -98,7 +98,6 @@ function love.update(dt)
 
         local walkableOne = collision.isWalkable(tileOne-1)
         local walkableTwo = collision.isWalkable(tileTwo-1)
-        print(tileOne, tileTwo)
 
         if walkableOne == true and walkableTwo == true then
             player.x, player.y = newX, newY
