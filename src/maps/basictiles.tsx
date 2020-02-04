@@ -17,6 +17,7 @@
  <tile id="108" type="torch"/>
  <tile id="109" type="torch"/>
  <tile id="110" type="torch"/>
+ <tile id="122" type="entrance"/>
  <tile id="128" type="torch"/>
  <tile id="129" type="torch"/>
  <tile id="130" type="torch"/>
