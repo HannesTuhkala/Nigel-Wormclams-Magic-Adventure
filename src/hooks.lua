@@ -7,7 +7,7 @@ hooks.add = function(event, id, fn)
 	if not ev then
 		hooks.internal[event] = {fn}
 	else
-		ev = table.insert(ev, fn)
+		table.insert(ev, fn)
 		hooks.internal[event] = ev
 	end
 end

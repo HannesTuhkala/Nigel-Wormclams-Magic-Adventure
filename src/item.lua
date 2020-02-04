@@ -1,28 +1,23 @@
+require 'util'
+
 local items = {}
+items.created = {}
 
---items.health_potion = {}
---items.health_potion.heal = 20
---items.health_potion.use = function(player)
---	player.health = player.health + items.health_potion.heal
---end
-
-items.create_health_potion = function()
-	health_potion = {}
-	health_potion.heal = 20
-	health_potion.quantity = 2
-	health_potion.type = "Health Potion"
-	health_potion.use = function(player)
-		if player.health + health_potion.heal > 100 then player.health = 100 return end
-		player.health = player.health + health_potion.heal
-	end
-	
-	return health_potion
+items.new = function(name, image, use)
+    if items.created[name] then return table.deep_copy(items.created[name]) end
+    
+    local item = {}
+    item.name = name
+    item.image = image
+    item.quantity = 1
+    item.use = use
+    
+    items.created[name] = item
+    return item
 end
 
-items.mana_potion = {}
-items.mana_potion.use = function()
-	-- regenerate mana somehow
-	return
+items.get = function(name)
+    return items.created[name]
 end
 
 return items

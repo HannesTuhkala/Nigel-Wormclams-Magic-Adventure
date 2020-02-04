@@ -34,7 +34,6 @@ local camera = require("camera")
 
 -- Load some default values for our rectangle.
 function love.load()
-	inventory.init()
     map = sti("maps/overworld.lua")
     imgs = ghelp.preloadimgs()
     player.sprite = imgs.player
@@ -49,13 +48,14 @@ function love.load()
 	talkies.typedNotTalked = false
 	talkies.pitchValues = {0.70, 0.72, 0.74, 0.76, 0.78, 0.80}
 	love.audio.newSource("assets/sound/record_scratch.mp3", "static")
-	talkies.say(dialog[1].title, dialog[1].text, {image = player.talksprite})
-	talkies.say(dialog[2].title, dialog[2].text, {image = player.talksprite})
+	--talkies.say(dialog[1].title, dialog[1].text, {image = player.talksprite})
+	--talkies.say(dialog[2].title, dialog[2].text, {image = player.talksprite})
 
 	local hpimage = love.graphics.newImage("assets/images/health_potion.png")
 	for i=1,12,1 do
-		local hp = items.create_health_potion()
-		hp.image = hpimage
+        local hp = items.new("Health Potion", hpimage, function(player)
+            if player.health + 20 > 100 then player.health = 100 return end
+            player.health = player.health + 20 end)
 		inventory[i] = hp
 	end
 
@@ -214,7 +214,6 @@ end
 function drop_item()
 	local slot_x, slot_y = math.floor((inv_selected.x - 785)/80), math.floor((inv_selected.y - 320)/80)
 	local slot = slot_x + 1 + slot_y * 3
-	print("deleting item at: "..slot)
 	inventory[slot] = nil
 end
 
