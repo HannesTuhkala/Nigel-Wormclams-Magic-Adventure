@@ -13,15 +13,11 @@ draw.inventory = function(inventory)
 	
 	for i = 0,11,1 do
 		if inventory[i+1] then
-			local x, y = 800 + (i%3 * 80), 337 + (i%4 * 80)
+			local x, y = 800 + (i%3 * 80), 337 + (math.floor(i/3) * 80)
 			love.graphics.draw(inventory[i+1].image, x, y)
-			love.graphics.print(inventory[i+1].quantity, 842 + (i%3 * 80), 335 + (i%4 * 80))
+			love.graphics.print(inventory[i+1].quantity, 842 + (i%3 * 80), 335 + (math.floor(i/3) * 80))
 		end
 	end
-	
-	--if not inventory[1] then return end
-	--love.graphics.draw(inventory[1].image, 800, 337)
-	--love.graphics.print(inventory[1].quantity, 842, 335)
 end
 
 -- Draws a context_menu if a player right-clicks on a slot in the inventory tab.

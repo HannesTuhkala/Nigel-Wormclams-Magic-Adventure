@@ -51,23 +51,12 @@ function love.load()
 	--talkies.say(dialog[1].title, dialog[1].text, {image = love.graphics.newImage("assets/images/player.png")})
 	--talkies.say(dialog[2].title, dialog[2].text, {image = love.graphics.newImage("assets/images/player.png")})
 
-
-	-- Glitches out and can't find bug atm
 	local hpimage = love.graphics.newImage("assets/images/health_potion.png")
 	for i=1,12,1 do
 		local hp = items.create_health_potion()
 		hp.image = hpimage
 		inventory[i] = hp
 	end
-	--items.health_potion.image = love.graphics.newImage("assets/images/health_potion.png")
-	--for i=1,20,1 do
-	--	local health_potion = items.create_health_potion()
-	--	health_potion.image = love.graphics.newImage("assets/images/health_potion.png")
-	--	inventory[i] = health_potion
-	--end
-	
-	--inventory[1] = items.create_health_potion()
-	--inventory[1].image = love.graphics.newImage("assets/images/health_potion.png")
 
     torchesIdx = collision.getAllTorches()
     torchesPositions = {}
