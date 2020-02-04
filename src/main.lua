@@ -10,7 +10,7 @@ local talkies = require('talkies')
 local dialog = require('dialog')
 
 local questsys = require('questsys')
-local sti = require "sti"
+local sti = require ("sti")
 
 local constants = require('constants')
 
@@ -23,6 +23,10 @@ inv_selected.clicked = false
 inv_selected.x = 0
 inv_selected.y = 0
 
+local tick = require("tick")
+local classic = require ("classic")
+local camera = require("camera")
+
 --https://github.com/rxi/tick
 --https://github.com/rxi/classic
 --https://github.com/adnzzzzZ/STALKER-X
@@ -30,10 +34,6 @@ inv_selected.y = 0
 
 -- Load some default values for our rectangle.
 function love.load()
-	tick = require "tick"
-	classic = require "classic"
-    camera = require "camera"
-
 	inventory.init()
     map = sti("map.lua")
     imgs = ghelp.preloadimgs()
@@ -53,15 +53,21 @@ function love.load()
 
 
 	-- Glitches out and can't find bug atm
+	local hpimage = love.graphics.newImage("assets/images/health_potion.png")
+	for i=1,12,1 do
+		local hp = items.create_health_potion()
+		hp.image = hpimage
+		inventory[i] = hp
+	end
 	--items.health_potion.image = love.graphics.newImage("assets/images/health_potion.png")
 	--for i=1,20,1 do
 	--	local health_potion = items.create_health_potion()
 	--	health_potion.image = love.graphics.newImage("assets/images/health_potion.png")
 	--	inventory[i] = health_potion
 	--end
-	inventory[1] = items.create_health_potion()
-	inventory[1].image = love.graphics.newImage("assets/images/health_potion.png")
-
+	
+	--inventory[1] = items.create_health_potion()
+	--inventory[1].image = love.graphics.newImage("assets/images/health_potion.png")
 
     torchesIdx = collision.getAllTorches()
     torchesPositions = {}
@@ -218,6 +224,7 @@ end
 function drop_item()
 	local slot_x, slot_y = math.floor((inv_selected.x - 785)/80), math.floor((inv_selected.y - 320)/80)
 	local slot = slot_x + 1 + slot_y * 3
+	print("deleting item at: "..slot)
 	inventory[slot] = nil
 end
 

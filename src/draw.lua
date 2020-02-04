@@ -11,18 +11,17 @@ draw.inventory = function(inventory)
 		end
 	end
 	
-	--for i = 0,19,1 do
-	--	if not inventory[i+1] then
-	--		print()
-	--	else
-	--		local x, y = 800 + (math.floor(i%3) * 80), 335 + (math.floor(i%4) * 80)
-	--		love.graphics.draw(inventory[i+1].image, x, y, 0, 0.1, 0.1)
-	--	end
-	--end
+	for i = 0,11,1 do
+		if inventory[i+1] then
+			local x, y = 800 + (i%3 * 80), 337 + (i%4 * 80)
+			love.graphics.draw(inventory[i+1].image, x, y)
+			love.graphics.print(inventory[i+1].quantity, 842 + (i%3 * 80), 335 + (i%4 * 80))
+		end
+	end
 	
-	if not inventory[1] then return end
-	love.graphics.draw(inventory[1].image, 800, 337)
-	love.graphics.print(inventory[1].quantity, 842, 335)
+	--if not inventory[1] then return end
+	--love.graphics.draw(inventory[1].image, 800, 337)
+	--love.graphics.print(inventory[1].quantity, 842, 335)
 end
 
 -- Draws a context_menu if a player right-clicks on a slot in the inventory tab.
@@ -79,7 +78,7 @@ end
 draw.skills = function(ply_attr)
     love.graphics.draw(imgs.skillsslot, 785, 320)
 	local old_font = love.graphics.getFont()
-	love.graphics.setFont(love.graphics.newFont("assets/fonts/Pixel UniCode.ttf", 32))
+	love.graphics.setFont(constants.fonts.default)
 	love.graphics.setColor(constants.tabs.selected_color)
 	love.graphics.print("Strength:", 815, 345)
 	love.graphics.print(ply_attr.strength, 940, 345)
