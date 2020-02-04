@@ -1,6 +1,25 @@
+local constants = require('constants')
+
 local draw = {}
 
-local constants = require('constants')
+-- Decides whether to draw the skills-tab or the inventory tab based on tab_index.
+-- inv_selected is used for draw.context_menu to let it know which option the mouse is on.
+draw.tabs = function(tab_index, inv_selected, player_attributes, inventory)
+	love.graphics.draw(imgs.inventoryIcon, 785, 280)
+	love.graphics.draw(imgs.skillsIcon, 905, 280)
+	love.graphics.setColor(constants.tabs.selected_color)
+	love.graphics.line(795 + (120 * tab_index), 314, 890 + (120 * tab_index), 314)
+	love.graphics.setColor(1, 1, 1, 1)
+	
+	if tab_index == 0 then
+		draw.inventory(inventory)
+		draw.context_menu(inv_selected)
+	elseif tab_index == 1 then
+		draw.skills(player_attributes)
+	elseif tab_index == 2 then
+		draw.equipment()
+	end
+end
 
 -- Will only be drawn if tab_index is set to 0. Is called by draw.tabs(tab_index).
 draw.inventory = function(inventory)
@@ -48,25 +67,6 @@ draw.context_menu = function(inv_selected)
 		love.graphics.print({{0, 0, 0, 255}, "Use"}, x, y + 2, 0, 0.8)
 		love.graphics.print({{0, 0, 0, 255}, "Drop"}, x, y + 19, 0, 0.8)
 		love.graphics.print({{0, 0, 0, 255}, "Cancel"}, x, y + 36, 0, 0.8)
-	end
-end
-
--- Decides whether to draw the skills-tab or the inventory tab based on tab_index.
--- inv_selected is used for draw.context_menu to let it know which option the mouse is on.
-draw.tabs = function(tab_index, inv_selected, player_attributes, inventory)
-	love.graphics.draw(imgs.inventoryIcon, 785, 280)
-	love.graphics.draw(imgs.skillsIcon, 905, 280)
-	love.graphics.setColor(constants.tabs.selected_color)
-	love.graphics.line(795 + (120 * tab_index), 314, 890 + (120 * tab_index), 314)
-	love.graphics.setColor(1, 1, 1, 1)
-	
-	if tab_index == 0 then
-		draw.inventory(inventory)
-		draw.context_menu(inv_selected)
-	elseif tab_index == 1 then
-		draw.skills(player_attributes)
-	elseif tab_index == 2 then
-		draw.equipment()
 	end
 end
 

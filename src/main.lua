@@ -233,6 +233,7 @@ function love.mousepressed(x, y, button, istouch, presses)
 					end
 				end
 			end
+        --- Checks whether we clicked on the inventory/skills tab.
 		elseif x > 785 and y > 280 and y < 320 then
 			if x < 905 then
 				tab_index = 0
