@@ -35,7 +35,7 @@ local camera = require("camera")
 -- Load some default values for our rectangle.
 function love.load()
 	inventory.init()
-    map = sti("map.lua")
+    map = sti("maps/overworld.lua")
     imgs = ghelp.preloadimgs()
     player.sprite = imgs.player
     camera = camera()
