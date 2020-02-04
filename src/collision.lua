@@ -1,5 +1,5 @@
 local collision = {}
-collision.map = require "map"
+collision.map = require "maps/overworld"
 collision.tiles = collision.map.layers[3].data
 
 local width = collision.map.layers[1].width

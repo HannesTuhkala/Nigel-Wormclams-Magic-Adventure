@@ -35,7 +35,7 @@ function love.load()
     camera = require "camera"
 
 	inventory.init()
-    map = sti("map.lua")
+    map = sti("maps/overworld.lua")
     imgs = ghelp.preloadimgs()
     player.sprite = imgs.player
     camera = camera()
