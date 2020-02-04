@@ -5,6 +5,7 @@ function table.shallow_copy(t)
     return u
 end
 
+-- http://lua-users.org/wiki/CopyTable
 -- Save copied tables in `copies`, indexed by original table.
 function table.deep_copy(orig, copies)
     copies = copies or {}
