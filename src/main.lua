@@ -38,6 +38,7 @@ function love.load()
     map = sti("maps/overworld.lua")
     imgs = ghelp.preloadimgs()
     player.sprite = imgs.player
+    player.talksprite = imgs.nigel
     camera = camera()
     camera:setFollowStyle("TOPDOWN")
 
@@ -48,8 +49,8 @@ function love.load()
 	talkies.typedNotTalked = false
 	talkies.pitchValues = {0.70, 0.72, 0.74, 0.76, 0.78, 0.80}
 	love.audio.newSource("assets/sound/record_scratch.mp3", "static")
-	--talkies.say(dialog[1].title, dialog[1].text, {image = love.graphics.newImage("assets/images/player.png")})
-	--talkies.say(dialog[2].title, dialog[2].text, {image = love.graphics.newImage("assets/images/player.png")})
+	talkies.say(dialog[1].title, dialog[1].text, {image = player.talksprite})
+	talkies.say(dialog[2].title, dialog[2].text, {image = player.talksprite})
 
 	local hpimage = love.graphics.newImage("assets/images/health_potion.png")
 	for i=1,12,1 do
