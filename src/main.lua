@@ -22,6 +22,7 @@ inv_selected.hover = {}
 inv_selected.clicked = false
 inv_selected.x = 0
 inv_selected.y = 0
+inv_selected.slot = nil
 
 local tick = require("tick")
 local classic = require ("classic")
@@ -32,7 +33,39 @@ local camera = require("camera")
 --https://github.com/adnzzzzZ/STALKER-X
 --https://github.com/Karai17/Simple-Tiled-Implementation
 
--- Load some default values for our rectangle.
+local function setup_talkies()
+    talkies.textSpeed = "medium"
+    talkies.padding = 20
+    talkies.font = love.graphics.newFont("assets/fonts/Pixel UniCode.ttf", 32)
+    talkies.talkSound = love.audio.newSource("assets/sound/sfx/talk.wav", "static")
+    talkies.typedNotTalked = false
+    talkies.pitchValues = {0.70, 0.72, 0.74, 0.76, 0.78, 0.80}
+    love.audio.newSource("assets/sound/record_scratch.mp3", "static")
+    --talkies.say(dialog[1].title, dialog[1].text, {image = player.talksprite})
+    --talkies.say(dialog[2].title, dialog[2].text, {image = player.talksprite})
+end
+
+local function fill_inventory()
+    local hpimage = love.graphics.newImage("assets/images/health_potion.png")
+    for i=1,12,1 do
+        local hp = items.new("Health Potion", hpimage, function(player)
+            if player.health + 20 > 100 then player.health = 100 return end
+            player.health = player.health + 20 end)
+        
+        inv:add(hp)
+    end
+end
+
+local function create_torches()
+    for i, v in ipairs(torchesIdx) do
+        ypos = (math.ceil(v / 100))*32
+        xpos = (v % 100)*32
+
+        table.insert(torchesPositions, {xpos, ypos})
+    end
+end
+
+-- Load some default values for our game.
 function love.load()
     map = sti("maps/overworld.lua")
     imgs = ghelp.preloadimgs()
@@ -41,39 +74,20 @@ function love.load()
     camera = camera()
     camera:setFollowStyle("TOPDOWN")
 
-	talkies.textSpeed = "medium"
-	talkies.padding = 20
-	talkies.font = love.graphics.newFont("assets/fonts/Pixel UniCode.ttf", 32)
-	talkies.talkSound = love.audio.newSource("assets/sound/sfx/talk.wav", "static")
-	talkies.typedNotTalked = false
-	talkies.pitchValues = {0.70, 0.72, 0.74, 0.76, 0.78, 0.80}
-	love.audio.newSource("assets/sound/record_scratch.mp3", "static")
-	--talkies.say(dialog[1].title, dialog[1].text, {image = player.talksprite})
-	--talkies.say(dialog[2].title, dialog[2].text, {image = player.talksprite})
-
-	local hpimage = love.graphics.newImage("assets/images/health_potion.png")
-	for i=1,12,1 do
-        local hp = items.new("Health Potion", hpimage, function(player)
-            if player.health + 20 > 100 then player.health = 100 return end
-            player.health = player.health + 20 end)
-		inventory[i] = hp
-	end
+    setup_talkies()
+    inv = inventory:new()
+    fill_inventory()
 
     torchesIdx = collision.getAllTorches()
     torchesPositions = {}
-    for i, v in ipairs(torchesIdx) do
-        ypos = (math.ceil(v / 100))*32
-        xpos = (v % 100)*32
-
-        table.insert(torchesPositions, {xpos, ypos})
-    end
+    create_torches()
 
     psystem = draw.init_particles()
 end
 
 -- Increase the size of the rectangle every frame.
 function love.update(dt)
-	tick.update(dt)
+    tick.update(dt)
     map:update(dt)
 
     local newX, newY, dir = move(dt)
@@ -124,7 +138,7 @@ function love.update(dt)
 
     camera:update(dt)
     camera:follow(player.x, player.y)
-	talkies.update(dt)
+    talkies.update(dt)
     psystem:update(dt)
 
 end
@@ -137,9 +151,9 @@ function love.draw()
         love.graphics.draw(psystem, v[1]-16, v[2]-22)
     end
     camera:detach()
-	draw.tabs(tab_index, inv_selected, player.attributes, inventory)
-	draw.health_bar(player.health)
-	talkies.draw()
+    draw.tabs(tab_index, inv_selected, player.attributes, inv)
+    draw.health_bar(player.health)
+    talkies.draw()
 end
 
 function move(dt)
@@ -178,93 +192,79 @@ function move(dt)
 end
 
 function love.keypressed(key)
-	if key == "space" then talkies.onAction()
-	elseif key == "up" then talkies.prevOption()
-	elseif key == "down" then talkies.nextOption()
-	end
+    if key == "space" then talkies.onAction()
+    elseif key == "up" then talkies.prevOption()
+    elseif key == "down" then talkies.nextOption()
+    end
 end
 
 function love.mousemoved(x, y, dx, dy, istouch)
-	inv_selected.hover[1] = false
-	inv_selected.hover[2] = false
-	inv_selected.hover[3] = false
+    inv_selected.hover[1] = false
+    inv_selected.hover[2] = false
+    inv_selected.hover[3] = false
 
-	if inv_selected.clicked then
-		if (inv_selected.mirror and x > inv_selected.x - 60 and x < inv_selected.x) or
-			(not inv_selected.mirror and x > inv_selected.x and x < inv_selected.x + 60) then
-			if y > inv_selected.y and y < inv_selected.y + 51 then
-				inv_selected.hover[math.floor((y-inv_selected.y) / 17) + 1] = true
-			end
-		end
-	end
-end
-
-function process_item(item)
-	local slot_x, slot_y = math.floor((inv_selected.x - 785)/80), math.floor((inv_selected.y - 320)/80)
-	local slot = slot_x + 1 + slot_y * 3
-	if not inventory[slot] then return end
-	inventory[slot].use(player)
-	inventory[slot].quantity = inventory[slot].quantity - 1
-	
-	if inventory[slot].quantity == 0 then
-		drop_item()
-	end
-end
-
-function drop_item()
-	local slot_x, slot_y = math.floor((inv_selected.x - 785)/80), math.floor((inv_selected.y - 320)/80)
-	local slot = slot_x + 1 + slot_y * 3
-	inventory[slot] = nil
+    if inv_selected.clicked then
+        if (inv_selected.mirror and x > inv_selected.x - 60 and x < inv_selected.x) or
+            (not inv_selected.mirror and x > inv_selected.x and x < inv_selected.x + 60) then
+            if y > inv_selected.y and y < inv_selected.y + 51 then
+                inv_selected.hover[math.floor((y-inv_selected.y) / 17) + 1] = true
+            end
+        end
+    end
 end
 
 function love.mousepressed(x, y, button, istouch, presses)
-	if button == 1 then
-		if inv_selected.clicked then
-			if (inv_selected.mirror and x > inv_selected.x - 60 and x < inv_selected.x) or
-				(not inv_selected.mirror and x > inv_selected.x and x < inv_selected.x + 60) then
-				if y > inv_selected.y and y < inv_selected.y + 51 then
-					option = math.floor((y-inv_selected.y) / 17) + 1
-					if option == 1 then
-						process_item()
-					elseif option == 2 then
-						drop_item()
-					elseif option == 3 then
-						inv_selected.clicked = false
-					end
-				end
-			end
+    if button == 1 then
+        if inv_selected.clicked then
+            if (inv_selected.mirror and x > inv_selected.x - 60 and x < inv_selected.x) or
+                (not inv_selected.mirror and x > inv_selected.x and x < inv_selected.x + 60) then
+                if y > inv_selected.y and y < inv_selected.y + 51 then
+                    option = math.floor((y-inv_selected.y) / 17) + 1
+                    -- Option 1: Use, Option 2: Drop, Option 3: Cancel
+                    if option == 1 then
+                        inv:use(inv_selected.slot, player)
+                    elseif option == 2 then
+                        inv:drop(inv_selected.slot)
+                    elseif option == 3 then
+                        inv_selected.clicked = false
+                    end
+                end
+            end
         --- Checks whether we clicked on the inventory/skills tab.
-		elseif x > 785 and y > 280 and y < 320 then
-			if x < 905 then
-				tab_index = 0
-			else
-				tab_index = 1
-			end
-		end
+        elseif x > 785 and y > 280 and y < 320 then
+            if x < 905 then
+                tab_index = 0
+            else
+                tab_index = 1
+            end
+        end
 
-		inv_selected.hover[1] = false
-		inv_selected.hover[2] = false
-		inv_selected.hover[3] = false
+        inv_selected.hover[1] = false
+        inv_selected.hover[2] = false
+        inv_selected.hover[3] = false
 
-		inv_selected.clicked = false
-		inv_selected.mirror = false
-	end
+        inv_selected.clicked = false
+        inv_selected.mirror = false
+    end
 
-	if button == 2 and tab_index == 0 then
-		if x > 785 and y > 320 then
-			--local slot_x, slot_y = math.floor((x - 785)/80), math.floor((y - 320)/80)
-			inv_selected.clicked = true
-			inv_selected.x = x
-			inv_selected.y = y
+    if button == 2 and tab_index == 0 then
+        if x > 785 and y > 320 then
+            inv_selected.clicked = true
+            inv_selected.x = x
+            inv_selected.y = y
+            
+            local slot_x, slot_y = math.floor((inv_selected.x - 785)/80), math.floor((inv_selected.y - 320)/80)
+            local slot = slot_x + 1 + slot_y * 3
+            inv_selected.slot = slot
 
-			if x > 1024 - 60 then
-				inv_selected.mirror = true
-			else
-				inv_selected.mirror = false
-			end
-		else
-			inv_selected.clicked = false
-			inv_selected.mirror = false
-		end
-	end
+            if x > 1024 - 60 then
+                inv_selected.mirror = true
+            else
+                inv_selected.mirror = false
+            end
+        else
+            inv_selected.clicked = false
+            inv_selected.mirror = false
+        end
+    end
 end
