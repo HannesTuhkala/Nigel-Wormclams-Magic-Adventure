@@ -4,7 +4,7 @@ local draw = {}
 
 -- Decides whether to draw the skills-tab or the inventory tab based on tab_index.
 -- inv_selected is used for draw.context_menu to let it know which option the mouse is on.
-draw.tabs = function(tab_index, inv_selected, player_attributes, inventory)
+draw.tabs = function(tab_index, inv_selected, player, inventory)
     love.graphics.draw(imgs.inventoryIcon, 785, 280)
     love.graphics.draw(imgs.skillsIcon, 905, 280)
     love.graphics.setColor(constants.tabs.selected_color)
@@ -15,9 +15,9 @@ draw.tabs = function(tab_index, inv_selected, player_attributes, inventory)
         draw.inventory(inventory)
         draw.context_menu(inv_selected)
     elseif tab_index == 1 then
-        draw.skills(player_attributes)
+        draw.skills(player.attributes)
     elseif tab_index == 2 then
-        draw.equipment()
+        draw.equipment(player.equipment)
     end
 end
 
@@ -100,14 +100,19 @@ draw.health_bar = function(health)
     love.graphics.setColor(1, 1, 1, 1)
 end
 
-draw.equipment = function()
+draw.equipment = function(equipment)
+    local points = {{x=785+90, y=320+10}, {x=785+90, y=320+90}, {x=800, y=320+130},
+                    {x=950, y=320+130}, {x=785+90, y=320+170}, {x=785+90, y=320+250}}
+
     love.graphics.draw(imgs.skillsslot, 785, 320)
-    love.graphics.draw(imgs.invslot, 785+90, 320+10, 0, 0.75, 0.75)
-    love.graphics.draw(imgs.invslot, 785+90, 320+90, 0, 0.75, 0.75)
-    love.graphics.draw(imgs.invslot, 800, 320+130, 0, 0.75, 0.75)
-    love.graphics.draw(imgs.invslot, 950, 320+130, 0, 0.75, 0.75)
-    love.graphics.draw(imgs.invslot, 785+90, 320+170, 0, 0.75, 0.75)
-    love.graphics.draw(imgs.invslot, 785+90, 320+250, 0, 0.75, 0.75)
+    
+    for k, v in ipairs(points) do
+        love.graphics.draw(imgs.invslot, v.x, v.y, 0, 0.75, 0.75)
+        local armor = equipment[equipment.slots[k]]
+        if armor then
+            love.graphics.draw(equipment[equipment.slots[k]], v.x + 12, v.y + 12, 0, 0.75, 0.75)
+        end
+    end
 end
 
 draw.init_particles = function()

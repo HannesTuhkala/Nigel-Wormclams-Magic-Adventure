@@ -1,3 +1,5 @@
+local constants = require('constants')
+
 local inventory = {}
 inventory.inv = {}
 
@@ -14,6 +16,8 @@ end
 
 -- Checks whether there is a current item in the inventory already,
 -- otherwise it adds it unless the inventory is full (12 slots).
+-- Parameter stack is boolean that is used to control whether to stack
+-- the current item added or not.
 -- If it is full it ends silently (TODO: FIX).
 function inventory:add(item, stack)
     stack = stack or stack == nil
@@ -22,7 +26,7 @@ function inventory:add(item, stack)
     if itemslot ~= -1 and stack then
         self.inv[itemslot].quantity = self.inv[itemslot].quantity + 1
     else
-        for i=1,12,1 do
+        for i=1,constants.inventory.size,1 do
             if not self.inv[i] then
                 self.inv[i] = item
                 return

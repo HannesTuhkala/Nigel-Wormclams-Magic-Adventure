@@ -5,6 +5,7 @@ constants.inventory.origin_x = 785
 constants.inventory.origin_y = 320
 constants.inventory.slot_width = 80
 constants.inventory.slot_height = 80
+constants.inventory.size = 12
 
 constants.context_menu = {}
 constants.context_menu.width = 60

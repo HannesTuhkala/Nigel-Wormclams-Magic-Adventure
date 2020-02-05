@@ -46,8 +46,8 @@ local function setup_talkies()
 end
 
 local function fill_inventory()
-    local hpimage = love.graphics.newImage("assets/images/health_potion.png")
-    for i=1,12,1 do
+    local hpimage = love.graphics.newImage("assets/images/healthpotion.png")
+    for i=1,constants.inventory.size,1 do
         local hp = items.new("Health Potion", hpimage, function(player)
             if player.health + 20 > 100 then player.health = 100 return end
             player.health = player.health + 20 end)
@@ -144,14 +144,18 @@ end
 
 function love.draw()
     camera:attach()
+    
     map:draw(camera:toCameraCoords(0, 0))
     love.graphics.draw(player.sprite, player.x, player.y)
     for i, v in ipairs(torchesPositions) do
         love.graphics.draw(psystem, v[1]-16, v[2]-22)
     end
+    
     camera:detach()
-    draw.tabs(tab_index, inv_selected, player.attributes, inv)
+    
+    draw.tabs(tab_index, inv_selected, player, inv)
     draw.health_bar(player.health)
+    
     talkies.draw()
 end
 
@@ -221,7 +225,12 @@ function love.mousepressed(x, y, button, istouch, presses)
                     option = math.floor((y-inv_selected.y) / 17) + 1
                     -- Option 1: Use, Option 2: Drop, Option 3: Cancel
                     if option == 1 then
-                        inv:use(inv_selected.slot, player)
+                        if tab_index == 0 then
+                            inv:use(inv_selected.slot, player)
+                        else
+                            local item = inv:get(inv_selected.slot)
+                            player:equip(item)
+                        end
                     elseif option == 2 then
                         inv:drop(inv_selected.slot)
                     elseif option == 3 then
@@ -265,5 +274,14 @@ function love.mousepressed(x, y, button, istouch, presses)
             inv_selected.clicked = false
             inv_selected.mirror = false
         end
+    end
+    
+    if button == 2 and tab_index == 2 then
+        if x > 785 and y > 320 then
+            inv_selected.clicked = true
+            inv_selected.x = x
+            inv_selected.y = y
+            
+        end    
     end
 end
