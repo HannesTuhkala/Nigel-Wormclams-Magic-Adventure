@@ -27,14 +27,14 @@ draw.inventory = function(inventory)
         for j = 0,2,1 do
             love.graphics.draw(imgs.invslot, constants.inventory.origin_x + (j * constants.inventory.slot_width),
                                 constants.inventory.origin_y + (i * constants.inventory.slot_height))
-        end
-    end
-    
-    for i = 0,11,1 do
-        if inventory.inv[i+1] then
-            local x, y = 800 + (i%3 * 80), 337 + (math.floor(i/3) * 80)
-            love.graphics.draw(inventory:get(i+1).image, x, y)
-            love.graphics.print(inventory:get(i+1).quantity, 842 + (i%3 * 80), 335 + (math.floor(i/3) * 80))
+                                
+            local item = inventory.inv[1 + j + i * 3]
+            if item then
+                local x, y = 800 + (j * 80), 337 + (i * 80)
+                local offset = item.quantity > 9 and 4 or 0
+                love.graphics.draw(item.image, x, y)
+                love.graphics.print(item.quantity, 841 - offset + (j * 80), 335 + (i * 80))
+            end
         end
     end
 end
@@ -101,7 +101,6 @@ draw.health_bar = function(health)
 end
 
 draw.equipment = function()
-    --love.graphics.rectangle("fill", 785, 320, 340, 320)
     love.graphics.draw(imgs.skillsslot, 785, 320)
     love.graphics.draw(imgs.invslot, 785+90, 320+10, 0, 0.75, 0.75)
     love.graphics.draw(imgs.invslot, 785+90, 320+90, 0, 0.75, 0.75)
@@ -109,14 +108,6 @@ draw.equipment = function()
     love.graphics.draw(imgs.invslot, 950, 320+130, 0, 0.75, 0.75)
     love.graphics.draw(imgs.invslot, 785+90, 320+170, 0, 0.75, 0.75)
     love.graphics.draw(imgs.invslot, 785+90, 320+250, 0, 0.75, 0.75)
-    --love.graphics.setColor(0, 0, 0, 1)
-    --love.graphics.rectangle("line", 785+90, 320+10, 60, 60)
-    --love.graphics.rectangle("line", 785+90, 320+90, 60, 60)
-    --love.graphics.rectangle("line", 800, 320+130, 60, 60)
-    --love.graphics.rectangle("line", 950, 320+130, 60, 60)
-    --love.graphics.rectangle("line", 785+90, 320+170, 60, 60)
-    --love.graphics.rectangle("line", 785+90, 320+250, 60, 60)
-    --love.graphics.setColor(1, 1, 1, 1)
 end
 
 draw.init_particles = function()

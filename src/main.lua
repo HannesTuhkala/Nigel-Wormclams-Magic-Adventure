@@ -1,5 +1,5 @@
 local player = require('player')
-local inventory = require('inventory')
+local inv = require('inventory')
 local ghelp = require('ghelp')
 local draw = require('draw')
 local items = require('item')
@@ -52,7 +52,7 @@ local function fill_inventory()
             if player.health + 20 > 100 then player.health = 100 return end
             player.health = player.health + 20 end)
         
-        inv:add(hp)
+        inv:add(hp, false)
     end
 end
 
@@ -75,7 +75,6 @@ function love.load()
     camera:setFollowStyle("TOPDOWN")
 
     setup_talkies()
-    inv = inventory:new()
     fill_inventory()
 
     torchesIdx = collision.getAllTorches()
@@ -254,7 +253,7 @@ function love.mousepressed(x, y, button, istouch, presses)
             inv_selected.y = y
             
             local slot_x, slot_y = math.floor((inv_selected.x - 785)/80), math.floor((inv_selected.y - 320)/80)
-            local slot = slot_x + 1 + slot_y * 3
+            local slot = 1 + slot_x + slot_y * 3
             inv_selected.slot = slot
 
             if x > 1024 - 60 then

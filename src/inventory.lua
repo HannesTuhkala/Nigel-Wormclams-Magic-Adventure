@@ -1,13 +1,6 @@
 local inventory = {}
 inventory.inv = {}
 
-function inventory:new(o)
-    o = o or {}
-    setmetatable(o, self)
-    self.__index = self
-    return o
-end
-
 -- Checks whether the inventory contains that item or not.
 function inventory:contains(item_name)
     for k, v in ipairs(self.inv) do
@@ -22,19 +15,17 @@ end
 -- Checks whether there is a current item in the inventory already,
 -- otherwise it adds it unless the inventory is full (12 slots).
 -- If it is full it ends silently (TODO: FIX).
-function inventory:add(item)
+function inventory:add(item, stack)
+    stack = stack or stack == nil
     local itemslot = self:contains(item.name)
     
-    if itemslot ~= -1 then
+    if itemslot ~= -1 and stack then
         self.inv[itemslot].quantity = self.inv[itemslot].quantity + 1
     else
-        if #self.inv < 12 then
-            if #self.inv == 0 then self.inv[1] = item return end
-            for k, v in ipairs(self.inv) do
-                if not v then
-                    self.inv[k] = item
-                    return
-                end
+        for i=1,12,1 do
+            if not self.inv[i] then
+                self.inv[i] = item
+                return
             end
         end
     end
