@@ -47,12 +47,21 @@ end
 
 local function fill_inventory()
     local hpimage = love.graphics.newImage("assets/images/healthpotion.png")
+    local mpimage = love.graphics.newImage("assets/images/manapotion.png")
     for i=1,constants.inventory.size,1 do
-        local hp = items.new("Health Potion", hpimage, function(player)
-            if player.health + 20 > 100 then player.health = 100 return end
-            player.health = player.health + 20 end)
-        
-        inv:add(hp, false)
+        if i%2 == 0 then
+            local hp = items.new("Health Potion", hpimage, function(player)
+                if player.health + 20 > 100 then player.health = 100 return end
+                player.health = player.health + 20 end)
+            
+            inv:add(hp, false)
+        else
+            local mp = items.new("Mana Potion", mpimage, function(player)
+                if player.mana + 20 > 100 then player.mana = 100 return end
+                player.mana = player.mana + 20 end)
+                
+            inv:add(mp, false)
+        end
     end
 end
 
@@ -154,7 +163,7 @@ function love.draw()
     camera:detach()
     
     draw.tabs(tab_index, inv_selected, player, inv)
-    draw.health_bar(player.health)
+    draw.bars(player.health, player.mana)
     
     talkies.draw()
 end

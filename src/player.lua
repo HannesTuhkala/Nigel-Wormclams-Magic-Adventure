@@ -4,6 +4,7 @@ player.width = 30
 player.height = 30
 player.name = "Nigel Wormclam"
 player.health = 50
+player.mana = 30
 
 player.equipment = {}
 player.equipment.slots = {"head", "chest", "legs", "boots", "l_hand", "r_hand"}

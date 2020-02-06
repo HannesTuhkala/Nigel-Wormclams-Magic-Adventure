@@ -92,11 +92,23 @@ draw.skills = function(ply_attr)
     love.graphics.setFont(old_font)
 end
 
-draw.health_bar = function(health)
-    love.graphics.rectangle("line", 250, 590, 400, 40)
+draw.bars = function(health, mana)
+    love.graphics.setColor(0, 0, 0, 1)
+    love.graphics.rectangle("line", 250, 540, 400, 40)
     local health_length = 398 * (health/100)
     love.graphics.setColor(0, 1, 0, 1)
-    love.graphics.rectangle("fill", 251, 591, health_length, 39)
+    love.graphics.rectangle("fill", 251, 541, health_length, 38)
+    love.graphics.setColor(0, 0, 0, 1)
+    
+    love.graphics.rectangle("line", 250, 590, 400, 40)
+    local mana_length = 398 * (mana/100)
+    love.graphics.setColor(0, 0, 1, 1)
+    love.graphics.rectangle("fill", 251, 591, mana_length, 38)
+    
+    love.graphics.setColor(0, 0, 0, 1)
+    love.graphics.print(health.."/100", 440, 552)
+    love.graphics.print(mana.."/100", 440, 602)
+    
     love.graphics.setColor(1, 1, 1, 1)
 end
 
