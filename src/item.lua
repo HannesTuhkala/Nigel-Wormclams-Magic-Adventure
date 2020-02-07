@@ -11,6 +11,7 @@ items.new = function(name, image, use)
     item.image = image
     item.quantity = 1
     item.use = use
+    item.is_wearable = false
     
     items.created[name] = item
     return item

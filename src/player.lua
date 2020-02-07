@@ -7,7 +7,7 @@ player.health = 50
 player.mana = 30
 
 player.equipment = {}
-player.equipment.slots = {"head", "chest", "legs", "boots", "l_hand", "r_hand"}
+player.equipment.slots = {"head", "chest", "legs", "l_hand", "r_hand", "boots"}
 player.equipment.head = nil
 player.equipment.chest = nil
 player.equipment.legs = nil

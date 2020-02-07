@@ -33,7 +33,9 @@ draw.inventory = function(inventory)
                 local x, y = 800 + (j * 80), 337 + (i * 80)
                 local offset = item.quantity > 9 and 4 or 0
                 love.graphics.draw(item.image, x, y)
-                love.graphics.print(item.quantity, 841 - offset + (j * 80), 335 + (i * 80))
+                if not item.is_wearable then
+                    love.graphics.print(item.quantity, 841 - offset + (j * 80), 335 + (i * 80))
+                end
             end
         end
     end
@@ -113,8 +115,8 @@ draw.bars = function(health, mana)
 end
 
 draw.equipment = function(equipment)
-    local points = {{x=785+90, y=320+10}, {x=785+90, y=320+90}, {x=800, y=320+130},
-                    {x=950, y=320+130}, {x=785+90, y=320+170}, {x=785+90, y=320+250}}
+    local points = {{x=785+90, y=320+10}, {x=785+90, y=320+90}, {x=785+90, y=320+170},
+                    {x=800, y=320+130}, {x=950, y=320+130}, {x=785+90, y=320+250}}
 
     love.graphics.draw(imgs.skillsslot, 785, 320)
     
@@ -122,7 +124,7 @@ draw.equipment = function(equipment)
         love.graphics.draw(imgs.invslot, v.x, v.y, 0, 0.75, 0.75)
         local armor = equipment[equipment.slots[k]]
         if armor then
-            love.graphics.draw(equipment[equipment.slots[k]], v.x + 12, v.y + 12, 0, 0.75, 0.75)
+            love.graphics.draw(equipment[equipment.slots[k]].image, v.x + 12, v.y + 12, 0, 0.75, 0.75)
         end
     end
 end

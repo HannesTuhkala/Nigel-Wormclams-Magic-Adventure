@@ -48,13 +48,21 @@ end
 local function fill_inventory()
     local hpimage = love.graphics.newImage("assets/images/healthpotion.png")
     local mpimage = love.graphics.newImage("assets/images/manapotion.png")
+    local swordimg = love.graphics.newImage("assets/images/sword.png")
     for i=1,constants.inventory.size,1 do
-        if i%2 == 0 then
+        if i%3 == 0 then
             local hp = items.new("Health Potion", hpimage, function(player)
                 if player.health + 20 > 100 then player.health = 100 return end
                 player.health = player.health + 20 end)
             
             inv:add(hp, false)
+        elseif i%3 == 1 then
+            local sword = items.new("Sword", swordimg, function(player)
+                return end)
+            sword.is_wearable = true
+            sword.type = "l_hand"
+            player:equip(sword)
+            inv:add(sword, false)
         else
             local mp = items.new("Mana Potion", mpimage, function(player)
                 if player.mana + 20 > 100 then player.mana = 100 return end
